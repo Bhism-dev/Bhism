@@ -2,6 +2,11 @@
 
 To work with the frontend, follow these commands:
 
+0. Install the necessary dependencies:
+    ```
+    npm install -g @ionic/cli
+    ```
+
 1. Change directory to the frontend folder:
     ```
     cd frontend
@@ -20,5 +25,5 @@ To work with the frontend, follow these commands:
 That's it! You are now ready to work on the frontend of your project.
 
 ```
-NOTE: Step 2 is only required for the first time you set up the project. You can skip it for subsequent runs.
+NOTE: Step 0 and 2 is only required for the first time you set up the project. You can skip it for subsequent runs.
 ```
