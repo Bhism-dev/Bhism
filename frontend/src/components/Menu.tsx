@@ -24,37 +24,37 @@ interface AppPage {
 const appPages: AppPage[] = [
   {
     title: 'Inbox',
-    url: '/folder/Inbox',
+    url: '/Inbox',
     iosIcon: mailOutline,
     mdIcon: mailSharp
   },
   {
     title: 'Outbox',
-    url: '/folder/Outbox',
+    url: '/Outbox',
     iosIcon: paperPlaneOutline,
     mdIcon: paperPlaneSharp
   },
   {
     title: 'Favorites',
-    url: '/folder/Favorites',
+    url: '/Favorites',
     iosIcon: heartOutline,
     mdIcon: heartSharp
   },
   {
     title: 'Archived',
-    url: '/folder/Archived',
+    url: '/Archived',
     iosIcon: archiveOutline,
     mdIcon: archiveSharp
   },
   {
     title: 'Trash',
-    url: '/folder/Trash',
+    url: '/Trash',
     iosIcon: trashOutline,
     mdIcon: trashSharp
   },
   {
     title: 'Spam',
-    url: '/folder/Spam',
+    url: '/Spam',
     iosIcon: warningOutline,
     mdIcon: warningSharp
   }
