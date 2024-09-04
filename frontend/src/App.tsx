@@ -33,8 +33,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
-import TailwindExample from './pages/TailwindExample/TailwindExample';
+import Login from './components/login';
 
 setupIonicReact();
 
@@ -45,13 +44,13 @@ const App: React.FC = () => {
         <IonSplitPane contentId="main">
           <Menu />
           <IonRouterOutlet id="main">
+          <Route exact path="/login" component={Login} /> 
             <Route path="/" exact={true}>
-              <Redirect to="/Inbox" />
+              <Redirect to="/Login" />
             </Route>
             <Route path="/:name" exact={true}>
               <Page />
             </Route>
-            <Route exact path="/tailwind-example" component={TailwindExample} />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
