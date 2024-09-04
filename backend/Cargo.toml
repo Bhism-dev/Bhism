@@ -11,3 +11,4 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 lettre = { version = "0.11.8", features = ["smtp-transport", "builder"] }
 tokio = { version = "1.40.0", features = ["full"] }
+lettre_email = "0.9.4"
