@@ -12,7 +12,7 @@ pub struct OtpRequestPhone {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OtpVerify {
-    pub phone: String,
+    pub email: Option<String>,
     pub code: String,
 }
 

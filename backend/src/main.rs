@@ -3,7 +3,7 @@ mod routes;
 mod services;
 
 use actix_web::{web, App, HttpServer};
-use routes::otp::init_routes;
+use routes::otp::otp_routes;
 
 
 async fn index() -> &'static str {
@@ -19,7 +19,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .route("/", web::get().to(index))
-            .configure(init_routes)
+            .configure(otp_routes)
     })
     .bind(server_address)?
     .run()

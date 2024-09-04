@@ -1,9 +1,10 @@
-use crate::models::otp::{OtpRequestEmail, OtpRequestPhone, OtpResend, OtpResponse, OtpVerify};
+use crate::models::otp::{self, OtpRequestEmail, OtpRequestPhone, OtpResend, OtpResponse, OtpVerify};
 use dotenv::dotenv;
 use lettre::message::header::ContentType;
 use rand::Rng;
 
 use std::env;
+use std::time::{SystemTime, UNIX_EPOCH, Duration};
 
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
@@ -15,8 +16,20 @@ pub fn generate_otp() -> String {
     first_digit + &rest_digits
 }
 
-pub fn send_otp_email(request: OtpRequestEmail) -> OtpResponse {
+fn store_otp_with_expiration(user_id: &str) -> String {
     let otp = generate_otp();
+
+    let expiration_time = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("Time went backwards")
+        .as_secs() + 600;
+
+    otp
+}
+
+pub fn send_otp_email(request: OtpRequestEmail) -> OtpResponse {
+    let user_id = "12345"; // Placeholder for user ID
+    let otp = store_otp_with_expiration(user_id);
 
     dotenv().ok();
 

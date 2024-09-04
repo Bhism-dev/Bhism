@@ -26,7 +26,7 @@ async fn resend_otp_handler(req: web::Json<OtpResend>) -> impl Responder {
     HttpResponse::Ok().json(response)
 }
 
-pub fn init_routes(cfg: &mut web::ServiceConfig) {
+pub fn otp_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(verify_otp_handler)
         .service(resend_otp_handler)
         .service(email_otp_handler);
