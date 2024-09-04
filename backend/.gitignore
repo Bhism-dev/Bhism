@@ -15,3 +15,5 @@ Cargo.toml.bkp
 
 # Generated documentation
 /doc/
+
+.env

@@ -1,9 +1,13 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct OtpRequest {
-    pub phone: String,
+pub struct OtpRequestEmail {
     pub email: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OtpRequestPhone {
+    pub phone: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
