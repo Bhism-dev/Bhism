@@ -26,3 +26,8 @@ pub struct OtpResponse {
     pub success: bool,
     pub message: String,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StoreOTP {
+    pub otp: String,
+}

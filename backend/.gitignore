@@ -16,4 +16,5 @@ Cargo.toml.bkp
 # Generated documentation
 /doc/
 
+# Private files
 .env
