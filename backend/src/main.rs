@@ -1,11 +1,10 @@
-use actix_web::{web, App, HttpServer};
-use crate::routes::init_routes;
-
-mod routes;
-mod config;
-mod db;
 mod models;
+mod routes;
 mod services;
+
+use actix_web::{web, App, HttpServer};
+use routes::otp::init_routes;
+
 
 async fn index() -> &'static str {
     "Bhism Backend Server 💻"

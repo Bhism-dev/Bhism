@@ -1,6 +1,6 @@
 use crate::models::otp::{OtpRequest, OtpVerify, OtpResend, OtpResponse};
 
-pub fn request_otp(request: OtpRequest) -> OtpResponse {
+pub fn request_otp(_request: OtpRequest) -> OtpResponse {
     // Logic to generate and send OTP
     OtpResponse {
         success: true,
@@ -8,7 +8,7 @@ pub fn request_otp(request: OtpRequest) -> OtpResponse {
     }
 }
 
-pub fn verify_otp(verify: OtpVerify) -> OtpResponse {
+pub fn verify_otp(_verify: OtpVerify) -> OtpResponse {
     // Logic to verify OTP
     OtpResponse {
         success: true,
@@ -16,7 +16,7 @@ pub fn verify_otp(verify: OtpVerify) -> OtpResponse {
     }
 }
 
-pub fn resend_otp(resend: OtpResend) -> OtpResponse {
+pub fn resend_otp(_resend: OtpResend) -> OtpResponse {
     // Logic to resend OTP
     OtpResponse {
         success: true,

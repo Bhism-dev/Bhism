@@ -1,1 +1,1 @@
-pub mod otp_services;
+pub mod otp_service;
