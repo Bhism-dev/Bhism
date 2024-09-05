@@ -1,13 +1,14 @@
-use crate::models::otp::{self, OtpRequestEmail, OtpRequestPhone, OtpResend, OtpResponse, OtpVerify};
+use crate::models::otp::{OtpRequestEmail, OtpRequestPhone, OtpResend, OtpResponse, OtpVerify};
 use dotenv::dotenv;
 use lettre::message::header::ContentType;
 use rand::Rng;
 
-use std::env;
-use std::time::{SystemTime, UNIX_EPOCH, Duration};
-
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
+use std::env;
+
+use awc::Client;
+use serde_json::json;
 
 pub fn generate_otp() -> String {
     let mut rng = rand::thread_rng();
@@ -16,20 +17,8 @@ pub fn generate_otp() -> String {
     first_digit + &rest_digits
 }
 
-fn store_otp_with_expiration(user_id: &str) -> String {
-    let otp = generate_otp();
-
-    let expiration_time = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .expect("Time went backwards")
-        .as_secs() + 600;
-
-    otp
-}
-
 pub fn send_otp_email(request: OtpRequestEmail) -> OtpResponse {
-    let user_id = "12345"; // Placeholder for user ID
-    let otp = store_otp_with_expiration(user_id);
+    let otp = generate_otp();
 
     dotenv().ok();
 
@@ -212,11 +201,43 @@ a[x-apple-data-detectors],
     }
 }
 
-pub fn send_otp_phone(_request: OtpRequestPhone) -> OtpResponse {
-    // Logic to generate and send OTP
-    OtpResponse {
-        success: true,
-        message: "OTP sent successfully.".into(),
+pub async fn send_otp_phone(request: OtpRequestPhone) -> OtpResponse {
+    let otp = generate_otp();
+
+    let client = Client::default();
+    let auth_header_value =
+        "7zyWqhu6GBJcNv1k0wORfAX8ZiKYLbQVEne4pCTxH3It5gdDP24XSHtMFazmDlixGIJ0voRYA9EqrU2Z";
+    let message = format!("Your Otp is: {}", otp); // Assuming `request` has an `otp` field
+
+    let response = client
+        .post("https://www.fast2sms.com/dev/bulkV2")
+        .insert_header(("authorization", auth_header_value))
+        .insert_header(("Content-Type", "application/json"))
+        .send_json(&json!({
+            "route": "q",
+            "message": message,
+            "flash": 0,
+            "numbers": request.phone,
+        })).await;
+
+    match response {
+        Ok(res) => {
+            if res.status().is_success() {
+                OtpResponse {
+                    success: true,
+                    message: "OTP sent successfully.".into(),
+                }
+            } else {
+                OtpResponse {
+                    success: false,
+                    message: format!("Failed to send OTP. Status: {}", res.status()),
+                }
+            }
+        }
+        Err(e) => OtpResponse {
+            success: false,
+            message: format!("Failed to send OTP: {}", e),
+        },
     }
 }
 

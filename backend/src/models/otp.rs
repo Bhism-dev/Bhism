@@ -7,13 +7,12 @@ pub struct OtpRequestEmail {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OtpRequestPhone {
-    pub phone: String,
+    pub phone: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OtpVerify {
-    pub email: Option<String>,
-    pub code: String,
+    pub otp: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
