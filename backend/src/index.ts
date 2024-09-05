@@ -1,16 +1,23 @@
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import otpRouter from "./routes/otp/otp";
+import express from 'express';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import authRoutes from './routes/auth/auth';
+import otpRoutes from './routes/otp/otp';
+import { createUserTable } from './schema/user_schema';
 
+dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
+app.use(bodyParser.json());
 
-app.use("/otp", otpRouter);
+// Initialize DB table
+createUserTable();
 
-app.listen(3000, function() {
-    console.log("Server is running on port http://localhost:3000");
-})
+// Routes
+app.use('/auth', authRoutes);
+app.use('/otp', otpRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
