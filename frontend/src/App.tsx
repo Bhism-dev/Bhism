@@ -41,6 +41,7 @@ import "./theme/variables.css";
 import LoginForm from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import BedAvailability from './pages/BedAvailability/BedAvailability.js';
+import LabManagementComponent from "./components/LabManagementComponent";
 
 setupIonicReact();
 
@@ -55,6 +56,7 @@ const App: React.FC = () => {
             <Redirect to="/Login" />
           </Route>
           <Route path="/bedavailability" component={BedAvailability} />
+          <Route path="/labmanagement" component={LabManagementComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
