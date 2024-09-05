@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IonContent, IonPage, IonSegment, IonSegmentButton, IonLabel, IonInput, IonButton, IonItem, IonText } from '@ionic/react';
-import './LoginForm.css'; // Import the custom CSS file
+import '../theme/tailwind.css'; // Import the Tailwind CSS file
 
 const LoginForm: React.FC = () => {
   const [segment, setSegment] = useState<'mobile' | 'abha'>('mobile');
@@ -19,7 +20,7 @@ const LoginForm: React.FC = () => {
     <IonPage>
       <IonContent className="ion-padding">
         <div className="flex justify-center items-center h-full">
-          <div className="login-container shadow-lg p-6 bg-white rounded-lg">
+          <div className="w-[28rem] shadow-lg p-6 bg-white rounded-lg">
             <h2 className="text-center text-2xl font-bold mb-4">Login</h2>
             <IonSegment value={segment} onIonChange={handleSegmentChange} color="primary">
               <IonSegmentButton value="mobile">
@@ -64,7 +65,7 @@ const LoginForm: React.FC = () => {
             {segment === 'abha' && (
               <div className="text-center mt-6">
                 <IonText color="medium">
-                  <p>Don't have an ABHA ID? <a href="/create-abha" className="text-primary">Create one</a></p>
+                  <p>Don't have an ABHA ID? <Link to="/create-abha" className="text-blue-500">Create one</Link></p>
                 </IonText>
               </div>
             )}

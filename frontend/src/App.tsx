@@ -38,7 +38,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import LoginForm from "./components/login";
+import LoginForm from "./components/Login";
 
 setupIonicReact();
 
