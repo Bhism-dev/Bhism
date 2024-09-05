@@ -1,4 +1,4 @@
-use crate::models::otp::{OtpRequestEmail, OtpRequestPhone, OtpResend, OtpResponse, OtpVerify};
+use crate::models::otp::{OtpRequestEmail, OtpRequestPhone, OtpResponse, OtpVerify};
 use dotenv::dotenv;
 use lettre::message::header::ContentType;
 use rand::Rng;
@@ -252,13 +252,5 @@ pub fn verify_otp(_verify: OtpVerify) -> OtpResponse {
     OtpResponse {
         success: true,
         message: "OTP verified successfully.".into(),
-    }
-}
-
-pub fn resend_otp(_resend: OtpResend) -> OtpResponse {
-    // Logic to resend OTP
-    OtpResponse {
-        success: true,
-        message: "OTP resent successfully.".into(),
     }
 }
