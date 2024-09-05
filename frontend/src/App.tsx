@@ -40,6 +40,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import LoginForm from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
+import BedAvailability from './pages/BedAvailability/BedAvailability.js';
 
 setupIonicReact();
 
@@ -53,6 +54,7 @@ const App: React.FC = () => {
           <Route path="/" exact={true}>
             <Redirect to="/Login" />
           </Route>
+          <Route path="/bedavailability" component={BedAvailability} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
