@@ -33,7 +33,9 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Login from './components/login';
+import LoginForm from './components/login';
+import Signup from './components/Signup';
+
 
 setupIonicReact();
 
@@ -44,10 +46,14 @@ const App: React.FC = () => {
         <IonSplitPane contentId="main">
           <Menu />
           <IonRouterOutlet id="main">
-          <Route exact path="/login" component={Login} /> 
+        
+
+          <Route exact path="/login" component={LoginForm} /> 
             <Route path="/" exact={true}>
               <Redirect to="/Login" />
             </Route>
+
+          <Route exact path="/signup" component={Signup} /> 
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
