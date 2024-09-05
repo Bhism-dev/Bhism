@@ -1,5 +1,5 @@
 use actix_web::{post, web, HttpResponse, Responder};
-use crate::models::otp::{OtpRequestEmail, OtpRequestPhone, OtpResend, OtpVerify, OtpResponse};
+use crate::models::otp::{OtpRequestEmail, OtpRequestPhone, OtpResend, OtpVerify};
 use crate::services::otp_service::{send_otp_email, send_otp_phone, verify_otp, resend_otp};
 
 #[post("/otp/email")]
@@ -10,7 +10,7 @@ async fn email_otp_handler(req: web::Json<OtpRequestEmail>) -> impl Responder {
 
 #[post("/otp/phone")]
 async fn phone_otp_handler(req: web::Json<OtpRequestPhone>) -> impl Responder {
-    let response = send_otp_phone(req.into_inner());
+    let response = send_otp_phone(req.into_inner()).await;
     HttpResponse::Ok().json(response)
 }
 
