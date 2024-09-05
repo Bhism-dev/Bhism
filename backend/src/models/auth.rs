@@ -12,7 +12,7 @@ pub struct User {
     pub phone: String
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct UserResponse {
     pub success: bool,
     pub message: String,

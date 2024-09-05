@@ -1,41 +1,24 @@
 use crate::{config::db_mongo::MongoConfig, models::auth::{User, UserResponse}};
 use actix_web::{
-    get, post,
     web::{Data, Json, Path},
     HttpResponse,
 };
+use mongodb::error::Error;
 
-pub async fn create_user(db: Data<MongoConfig>, new_user: Json<User>) -> UserResponse {
+pub async fn create_user(db: Data<MongoConfig>, new_user: User) -> Result<User, Error> {
     let data = User {
-        id: None, 
-        username: new_user.username.to_owned(),
-        email: new_user.email.to_owned(),
-        address: new_user.address.to_owned(),
-        phone: new_user.phone.to_owned(),
+        id: None,
+        username: new_user.username,
+        email: new_user.email,
+        address: new_user.address,
+        phone: new_user.phone,
     };
-    let user_detail = db.create_user(data).await;
-    match user_detail {
-        Ok(_) => UserResponse {
-            success: true,
-            message: "User stored successfully.".into(),
-        },
-        Err(e) => UserResponse {
-            success: false,
-            message: format!("Failed to store User: {}", e),
-        },
-        // Ok(insert_result) => UserResponse::Ok().json(insert_result),
-        // Err(err) => UserResponse::InternalServerError().body(err.to_string()),
-    }
+    db.create_user(data).await
 }
 
-pub async fn fetch_user(db: Data<MongoConfig>, path: Path<String>) -> HttpResponse {
-    let id = path.into_inner();
+pub async fn fetch_user_service(db: Data<MongoConfig>, id: &str) -> Result<User, Error> {
     if id.is_empty() {
-        return HttpResponse::BadRequest().body("Invalid id.");
+        return Err(Error::from("Invalid id."));
     }
-    let user_detail = db.fetch_user(&id).await;
-    match user_detail {
-        Ok(user) => HttpResponse::Ok().json(user),
-        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
-    }
+    db.fetch_user(id).await
 }

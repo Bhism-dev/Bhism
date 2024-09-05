@@ -1,23 +1,23 @@
 use crate::{config::db_mongo::MongoConfig, models::auth::User};
 use actix_web::{post, get, web, HttpResponse, Responder};
-// use crate::models::auth::User;
 use crate::services::auth_service::{create_user, fetch_user};
 
+
 #[post("/user")]
-async fn create_user_handler(db: web::Data<MongoConfig>, req: web::Json<User>) -> impl Responder {
-    let response = create_user(db, req);
-    HttpResponse::Ok().json(response)
+pub async fn create_user_handler(db: Data<MongoConfig>, new_user: Json<User>) -> HttpResponse {
+    match create_user(db, new_user.into_inner()).await {
+        Ok(insert_result) => HttpResponse::Ok().json(insert_result),
+        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+    }
 }
 
-// async fn create_user_handler(req: web::Json<User>) -> impl Responder {
-//     let response = create_user(req.into_inner());
-//     HttpResponse::Ok().json(response)
-// }
-
 #[get("/user/{id}")]
-async fn fetch_user_handler(req: web::Json<User>) -> impl Responder {
-    let response = fetch_user(req.into_inner());
-    HttpResponse::Ok().json(response)
+pub async fn fetch_user_handler(db: Data<MongoConfig>, path: Path<String>) -> HttpResponse {
+    let id = path.into_inner();
+    match fetch_user(db, &id).await {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+    }
 }
 
 pub fn auth_routes(cfg: &mut web::ServiceConfig) {

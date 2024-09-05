@@ -1,5 +1,4 @@
 use std::env;
-extern crate dotenv;
 use dotenv::dotenv;
 
 use crate::models::auth::User;
@@ -36,7 +35,7 @@ impl MongoConfig {
         };
         let insert_result = self
             .col
-            .insert_one(new_doc)
+            .insert_one(new_doc, None)
             .await
             .ok()
             .expect("Error creating the user");
@@ -48,7 +47,7 @@ impl MongoConfig {
         let filter = doc! {"_id": obj_id};
         let user_detail = self
             .col
-            .find_one(filter)
+            .find_one(filter, None)
             .await
             .ok()
             .expect("Error getting user's details.");
