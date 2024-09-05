@@ -204,22 +204,28 @@ a[x-apple-data-detectors],
 pub async fn send_otp_phone(request: OtpRequestPhone) -> OtpResponse {
     let otp = generate_otp();
 
+    dotenv().ok();
+
     let client = Client::default();
-    let auth_header_value =
-        "7zyWqhu6GBJcNv1k0wORfAX8ZiKYLbQVEne4pCTxH3It5gdDP24XSHtMFazmDlixGIJ0voRYA9EqrU2Z";
-    let message = format!("Your Otp is: {}", otp); // Assuming `request` has an `otp` field
+    let auth_header_value = env::var("FAST2SMS_AUTH_HEADER").expect("FAST2SMS_AUTH_HEADER must be set");
+    let _message = format!("BHISM: Your one time password is {}. It will expire in 10 minutes. Please do not share this code with anyone.", otp); 
 
     let response = client
         .post("https://www.fast2sms.com/dev/bulkV2")
         .insert_header(("authorization", auth_header_value))
         .insert_header(("Content-Type", "application/json"))
+        // .send_json(&json!({
+        //     "route": "q",
+        //     "message": message,
+        //     "flash": 0,
+        //     "numbers": request.phone
+        // })).await;
         .send_json(&json!({
-            "route": "q",
-            "message": message,
-            "flash": 0,
-            "numbers": request.phone,
-        })).await;
-
+          "route": "otp",
+          "variables_values": otp,
+          "numbers": request.phone,
+      })).await;
+        println!("{}",otp);
     match response {
         Ok(res) => {
             if res.status().is_success() {
