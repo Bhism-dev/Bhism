@@ -5,7 +5,7 @@ import authRoutes from './routes/auth/auth';
 import otpRoutes from './routes/otp/otp';
 import { createUserTable } from './schema/user_schema';
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 const app = express();
 const PORT = process.env.PORT || 3000;
 

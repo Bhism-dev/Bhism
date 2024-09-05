@@ -1,13 +1,21 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import fs from 'fs';
 
-dotenv.config();
+dotenv.config({path: "../.env"});
 
-console.log(process.env.DATABASE_URL);  // Debugging step
+const caCert = fs.readFileSync("../ca.pem", "utf8");
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: false, // Disable SSL
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: 24334,
+    database: process.env.DB_NAME,
+    ssl: {
+        rejectUnauthorized: true,
+        ca: caCert,
+}
 });
 
 pool.on('error', (err) => {
