@@ -1,13 +1,13 @@
-// src/index.ts
-import express from 'express';
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
-const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello, TypeScript with Express!');
-});
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+app.listen(3000, function() {
+    console.log("Server is running on port http://localhost:3000");
+})
