@@ -1,5 +1,5 @@
 use crate::{config::db_mongo::MongoConfig, models::auth::User};
-use actix_web::{post, get, web, HttpResponse, Responder};
+use actix_web::{get, post, web::{self, Data, Json, Path}, HttpResponse};
 use crate::services::auth_service::{create_user, fetch_user};
 
 

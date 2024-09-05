@@ -14,6 +14,7 @@ lettre = { version = "0.11.8", features = ["smtp-transport", "builder"] }
 tokio = { version = "1.40.0", features = ["full"] }
 lettre_email = "0.9.4"
 futures = "0.3.30"
+anyhow = "1.0.86"
 
 [dependencies.mongodb]
 version = "2.2.0"

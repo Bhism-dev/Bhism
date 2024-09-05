@@ -1,11 +1,10 @@
-use crate::{config::db_mongo::MongoConfig, models::auth::{User, UserResponse}};
-use actix_web::{
-    web::{Data, Json, Path},
-    HttpResponse,
-};
-use mongodb::error::Error;
+use crate::{config::db_mongo::MongoConfig, models::auth::User};
+use actix_web::web::Data;
+use mongodb::results::InsertOneResult;
+use anyhow::{Result, anyhow};
+use mongodb::bson::extjson::de::Error as BsonError;
 
-pub async fn create_user(db: Data<MongoConfig>, new_user: User) -> Result<User, Error> {
+pub async fn create_user(db: Data<MongoConfig>, new_user: User) -> Result<InsertOneResult, BsonError> {
     let data = User {
         id: None,
         username: new_user.username,
@@ -16,9 +15,9 @@ pub async fn create_user(db: Data<MongoConfig>, new_user: User) -> Result<User, 
     db.create_user(data).await
 }
 
-pub async fn fetch_user_service(db: Data<MongoConfig>, id: &str) -> Result<User, Error> {
+pub async fn fetch_user(db: Data<MongoConfig>, id: &str) -> Result<User> {
     if id.is_empty() {
-        return Err(Error::from("Invalid id."));
+        return Err(anyhow!("User ID is required"));
     }
-    db.fetch_user(id).await
+    db.fetch_user(&id.to_string()).await.map_err(|e: BsonError| anyhow!(e.to_string()))
 }
