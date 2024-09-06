@@ -6,6 +6,7 @@ import otpRoutes from './routes/otp/otp';
 import userRoute from './routes/user/user';
 import { createUserTable } from './schema/user_schema';
 import { createOtpTable } from './schema/otp_schema';
+import cors from 'cors';
 
 
 dotenv.config({ path: "../.env" });
@@ -13,6 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 // Initialize DB table
 createUserTable();

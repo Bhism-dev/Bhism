@@ -22,6 +22,7 @@ router.post('/signup', async (req, res) => {
 // Signin route
 router.post('/signin', async (req, res) => {
   const { phone, password } = req.body;
+  console.log(phone, " ",password);
   try {
     const user = await findUserByPhone(phone);
     if (!user) return res.status(404).json({ message: 'User not found' });
