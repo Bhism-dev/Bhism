@@ -54,3 +54,54 @@ export const updateUserToken = async (email: string, token: string) => {
   const result = await query('UPDATE users SET token = $1 WHERE email = $2 RETURNING *', [token, email]);
   return result.rows[0];
 };
+
+// fetch user by token
+export const fetchUserByToken = async (token: string) => {
+  const result = await query('SELECT first_name, last_name, phone, email, abhaid FROM users WHERE token = $1', [token]);
+  return result.rows[0];
+};
+
+// delete user by token
+export const deleteUserByToken = async (token: string) => {
+  await query('DELETE FROM users WHERE token = $1', [token]);
+};
+
+// update user by token
+export const updateUserByToken = async (token: string, firstName: string, lastName: string, phone: string, email: string) => {
+  let updateQuery = 'UPDATE users SET';
+  const values = [];
+  let index = 1;
+
+  if (firstName) {
+    updateQuery += ` first_name = $${index},`;
+    values.push(firstName);
+    index++;
+  }
+
+  if (lastName) {
+    updateQuery += ` last_name = $${index},`;
+    values.push(lastName);
+    index++;
+  }
+
+  if (phone) {
+    updateQuery += ` phone = $${index},`;
+    values.push(phone);
+    index++;
+  }
+
+  if (email) {
+    updateQuery += ` email = $${index},`;
+    values.push(email);
+    index++;
+  }
+
+  // Remove the trailing comma
+  updateQuery = updateQuery.slice(0, -1);
+
+  updateQuery += ` WHERE token = $${index} RETURNING *`;
+  values.push(token);
+
+  const result = await query(updateQuery, values);
+  return result.rows[0];
+};
