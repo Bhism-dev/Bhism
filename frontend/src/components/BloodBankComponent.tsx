@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonPage, 
-  IonTitle, 
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
   IonToolbar,
   IonButton,
   IonCard,
@@ -103,34 +103,34 @@ const BloodBankPage: React.FC = () => {
           </IonCard>
         </div>
         <div className="mt-8 bg-gray-100 py-8 px-4 rounded-lg">
-            <h2 className="text-2xl font-bold text-center mb-6">Why Donate Blood?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <IonIcon icon={heart} color="danger" className="w-12 h-12 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Save Lives</h3>
-                <p className="text-gray-600">Your donation can save up to three lives in emergency situations.</p>
-              </div>
-              <div className="text-center">
-                <IonIcon icon={water} color="primary" className="w-12 h-12 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Community Support</h3>
-                <p className="text-gray-600">Help your local community by ensuring a stable blood supply.</p>
-              </div>
-              <div className="text-center">
-                <IonIcon icon={calendar} color="tertiary" className="w-12 h-12 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Quick Process</h3>
-                <p className="text-gray-600">The donation process is quick, usually taking less than an hour.</p>
-              </div>
+          <h2 className="text-2xl font-bold text-center mb-6">Why Donate Blood?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <IonIcon icon={heart} color="danger" className="w-12 h-12 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Save Lives</h3>
+              <p className="text-gray-600">Your donation can save up to three lives in emergency situations.</p>
+            </div>
+            <div className="text-center">
+              <IonIcon icon={water} color="primary" className="w-12 h-12 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Community Support</h3>
+              <p className="text-gray-600">Help your local community by ensuring a stable blood supply.</p>
+            </div>
+            <div className="text-center">
+              <IonIcon icon={calendar} color="tertiary" className="w-12 h-12 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Quick Process</h3>
+              <p className="text-gray-600">The donation process is quick, usually taking less than an hour.</p>
             </div>
           </div>
-  
-          <div className="mt-8 text-center">
-            <h2 className="text-2xl font-bold mb-4">Ready to Make a Difference?</h2>
-            <p className="text-lg mb-6">Every drop counts. Donate blood and save lives.</p>
-            <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-              <IonButton color="danger" onClick={() => setShowDonateModal(true)}>Donate Now</IonButton>
-              <IonButton fill="outline">Learn More</IonButton>
-            </div>
+        </div>
+          
+        <div className="mt-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">Ready to Make a Difference?</h2>
+          <p className="text-lg mb-6">Every drop counts. Donate blood and save lives.</p>
+          <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+            <IonButton color="danger" onClick={() => setShowDonateModal(true)}>Donate Now</IonButton>
+            <IonButton fill="outline">Learn More</IonButton>
           </div>
+        </div>
         {/* ... (rest of the content remains the same) ... */}
 
         {/* Donate Blood Modal */}
@@ -284,7 +284,7 @@ const BloodBankPage: React.FC = () => {
               </div>
               <div className="mb-6 mx-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Select Appointment Date</label>
-                <IonDatetimeButton style={{backgroundColor: 'transparent'}} datetime="appointmentDate" className="w-full border border-gray-300 rounded-md py-2 px-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></IonDatetimeButton>
+                <IonDatetimeButton style={{ backgroundColor: 'transparent' }} datetime="appointmentDate" className="w-full border border-gray-300 rounded-md py-2 px-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></IonDatetimeButton>
                 <IonModal keepContentsMounted={true}>
                   <IonDatetime id="appointmentDate" presentation="date"></IonDatetime>
                 </IonModal>

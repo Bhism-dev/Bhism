@@ -2,6 +2,7 @@ import express from "express";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 import { insertOtpRequest, validateOtpRequest, verifyOtpRequest } from "../../schema/otp_schema";
 
@@ -239,7 +240,7 @@ router.post("/verify/email", async (req, res) => {
 
 router.post("/verify/phone", async (req, res) => {
     const { phone, otp } = req.body;
-
+    const token = jwt.sign({ phone }, process.env.JWT_SECRET!, { expiresIn: '1h' });
     const otpRequest = await validateOtpRequest({ phone }, otp);
 
     if (!otpRequest) {
@@ -251,7 +252,7 @@ router.post("/verify/phone", async (req, res) => {
     if (!verifiedOtpRequest) {
         return res.status(500).send({ error: "Failed to verify OTP" });
     } else {
-    res.status(200).send({ message: "OTP verified successfully" });
+    res.status(200).send({ message: "OTP verified successfully", token });
     }
 });
 

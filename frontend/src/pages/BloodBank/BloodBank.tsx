@@ -5,4 +5,4 @@ function BloodBank() {
     )
   }
   
-  export default BloodBank;
+export default BloodBank;

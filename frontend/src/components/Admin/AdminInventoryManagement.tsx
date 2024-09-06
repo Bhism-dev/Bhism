@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
     IonContent, IonPage, IonCol, IonRow, IonGrid, IonText, IonCard, IonCardContent,
-    IonSearchbar, IonItem, IonInput, IonButton, IonToggle
+    IonSearchbar, IonItem, IonInput, IonButton, IonToggle, IonCheckbox, IonIcon
 } from '@ionic/react';
 import '../../theme/tailwind.css';
+import { addCircleOutline, trashOutline, closeOutline } from 'ionicons/icons';
 
 interface Medicine {
     serialNumber: number;
@@ -23,6 +24,8 @@ const InventoryAdminComponent: React.FC = () => {
 
     const [searchText, setSearchText] = useState('');
     const [newMedicineId, setNewMedicineId] = useState<number>(medicines.length + 1);
+    const [deleteMode, setDeleteMode] = useState<boolean>(false);
+    const [selectedMedicines, setSelectedMedicines] = useState<Set<number>>(new Set());
 
     // Add new medicine entry
     const handleAddMedicine = () => {
@@ -39,6 +42,32 @@ const InventoryAdminComponent: React.FC = () => {
     // Save changes for all medicines
     const handleSaveAll = () => {
         console.log('Saved changes for all medicines:', medicines);
+    };
+
+    const handleDeleteSelected = () => {
+        const remainingMedicines = medicines.filter(medicine => !selectedMedicines.has(medicine.serialNumber));
+        setMedicines(remainingMedicines);
+        setSelectedMedicines(new Set());
+        setDeleteMode(false);
+    };
+
+    const handleSelectMedicine = (serialNumber: number) => {
+        const updatedSelection = new Set(selectedMedicines);
+        if (updatedSelection.has(serialNumber)) {
+            updatedSelection.delete(serialNumber);
+        } else {
+            updatedSelection.add(serialNumber);
+        }
+        setSelectedMedicines(updatedSelection);
+    };
+
+    const handleSelectAll = () => {
+        if (selectedMedicines.size === medicines.length) {
+            setSelectedMedicines(new Set());
+        } else {
+            const allSerialNumbers = new Set(medicines.map(medicine => medicine.serialNumber));
+            setSelectedMedicines(allSerialNumbers);
+        }
     };
 
     // Update medicine fields
@@ -81,9 +110,29 @@ const InventoryAdminComponent: React.FC = () => {
                 />
 
                 {/* Add Medicine Button */}
-                <IonButton expand="full" color="primary" className="mb-4" onClick={handleAddMedicine}>
-                    Add Medicine
-                </IonButton>
+                <IonRow className="mb-4">
+                    <IonCol size="6">
+                        <IonButton
+                            expand="full"
+                            color="primary"
+                            onClick={handleAddMedicine}
+                        >
+                            <IonIcon slot="start" icon={addCircleOutline} />
+                            Add Medicine
+                        </IonButton>
+                    </IonCol>
+
+                    <IonCol size="6">
+                        <IonButton
+                            expand="full"
+                            color={deleteMode ? 'danger' : 'warning'}
+                            onClick={() => setDeleteMode(!deleteMode)}
+                        >
+                            <IonIcon slot="start" icon={deleteMode ? closeOutline: trashOutline } />
+                            Delete Medicine
+                        </IonButton>
+                    </IonCol>
+                </IonRow>
 
                 {/* Medicine List */}
                 <IonGrid>
@@ -92,10 +141,18 @@ const InventoryAdminComponent: React.FC = () => {
                             <IonCardContent>
                                 <IonGrid>
                                     <IonRow>
-                                        <IonCol size="12" sizeMd="3">
+                                        <IonCol size={deleteMode ? "12" : "0"} sizeMd={deleteMode ? "1" : "0"}>
+                                            {deleteMode && (
+                                                <IonCheckbox
+                                                    checked={selectedMedicines.has(medicine.serialNumber)}
+                                                    onIonChange={() => handleSelectMedicine(medicine.serialNumber)}
+                                                />
+                                            )}
+                                        </IonCol>
+                                        <IonCol size="12" sizeMd="2">
                                             <IonText>Serial Number: {medicine.serialNumber}</IonText>
                                         </IonCol>
-                                        <IonCol size="12" sizeMd="3">
+                                        <IonCol size="12" sizeMd="4">
                                             <IonItem>
                                                 <IonInput
                                                     value={medicine.name}
@@ -104,7 +161,7 @@ const InventoryAdminComponent: React.FC = () => {
                                                 />
                                             </IonItem>
                                         </IonCol>
-                                        <IonCol size="12" sizeMd="3">
+                                        <IonCol size="12" sizeMd="2">
                                             <IonItem>
                                                 <IonInput
                                                     value={medicine.numberOfItems}
@@ -114,7 +171,7 @@ const InventoryAdminComponent: React.FC = () => {
                                                 />
                                             </IonItem>
                                         </IonCol>
-                                        <IonCol size="12" sizeMd="3">
+                                        <IonCol size="12" sizeMd="2">
                                             <IonItem>
                                                 <IonToggle
                                                     checked={medicine.available}
@@ -129,6 +186,37 @@ const InventoryAdminComponent: React.FC = () => {
                         </IonCard>
                     ))}
                 </IonGrid>
+
+                {/* Delete Selected Button */}
+                {deleteMode && (
+                    <>
+                        <IonText className="block mb-2">
+                            {selectedMedicines.size} {selectedMedicines.size === 1 ? 'medicine' : 'medicines'} selected
+                        </IonText>
+                        <IonRow className="ion-margin-top">
+                            <IonCol size="6">
+                                <IonButton
+                                    expand="full"
+                                    color="danger"
+                                    onClick={handleDeleteSelected}
+                                >
+                                    Delete Selected Medicines
+                                </IonButton>
+                            </IonCol>
+                            <IonCol size="6">
+                                <IonButton
+                                    expand="full"
+                                    color="medium"
+                                    onClick={handleSelectAll}
+                                >
+                                    {selectedMedicines.size === medicines.length ? 'Deselect All' : 'Select All'}
+                                </IonButton>
+                            </IonCol>
+                        </IonRow>
+                    </>
+                )}
+
+
 
                 {/* Save All Button */}
                 <IonButton expand="full" color="success" onClick={handleSaveAll}>
