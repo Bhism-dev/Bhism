@@ -55,8 +55,8 @@ export default function UserDashboardComponent() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle>Hospital Dashboard</IonTitle>
+        <IonToolbar className='bg-blue-900'>
+          <IonTitle style={{color:'white'}}>Hospital Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -173,7 +173,7 @@ export default function UserDashboardComponent() {
         <IonModal isOpen={showModal === 'appointments'} onDidDismiss={closeModal}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Upcoming Appointments</IonTitle>
+              <IonTitle style={{color:'white'}}>Upcoming Appointments</IonTitle>
               <IonButtons slot="end">
                 <IonFabButton size="small" onClick={closeModal}>
                   <IonIcon icon={closeCircleOutline} />
@@ -198,7 +198,7 @@ export default function UserDashboardComponent() {
         <IonModal isOpen={showModal === 'familyMembers'} onDidDismiss={closeModal}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Family Members</IonTitle>
+              <IonTitle style={{color:'white'}}>Family Members</IonTitle>
               <IonButtons slot="end">
                 <IonFabButton size="small" onClick={closeModal}>
                   <IonIcon icon={closeCircleOutline} />
@@ -223,7 +223,7 @@ export default function UserDashboardComponent() {
         <IonModal isOpen={showModal === 'dietaryPlan'} onDidDismiss={closeModal}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>My Dietary Plan</IonTitle>
+              <IonTitle style={{color:'white'}}>My Dietary Plan</IonTitle>
               <IonButtons slot="end">
                 <IonFabButton size="small" onClick={closeModal}>
                   <IonIcon icon={closeCircleOutline} />
@@ -248,7 +248,7 @@ export default function UserDashboardComponent() {
         <IonModal isOpen={showModal === 'recentTests'} onDidDismiss={closeModal}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Recent Test Results</IonTitle>
+              <IonTitle style={{color:'white'}}>Recent Test Results</IonTitle>
               <IonButtons slot="end">
                 <IonFabButton size="small" onClick={closeModal}>
                   <IonIcon icon={closeCircleOutline} />
