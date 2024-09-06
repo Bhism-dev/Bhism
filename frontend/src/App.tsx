@@ -43,6 +43,7 @@ import Signup from "./pages/Signup/Signup";
 import BedAvailability from './pages/BedAvailability/BedAvailability.js';
 import LabManagementComponent from "./components/LabManagementComponent";
 import InventoryManagement from './pages/InventoryManagement/InventoryManagement';
+import HospitalDashboard from "./components/dashboard";
 
 setupIonicReact();
 
