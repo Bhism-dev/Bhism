@@ -21,6 +21,7 @@ import {
   IonIcon
 } from '@ionic/react';
 import { close, chevronDown } from 'ionicons/icons';
+import './LabManagement.css'
 
 const labs = [
   { 
@@ -109,8 +110,8 @@ export default function LabManagementComponent() {
   return (
     <IonApp >
       <IonHeader>
-        <IonToolbar className="bg-blue-900">
-          <IonTitle className="text-center font-bold text-black">Hospital Lab Queue System</IonTitle>
+        <IonToolbar>
+          <IonTitle className="text-center font-bold text-white ">Hospital Lab Queue System</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding bg-gray-50">
@@ -208,24 +209,13 @@ export default function LabManagementComponent() {
               </div>
             </IonList>
 
-            <IonButton expand="block" fill="clear" onClick={bookTest} className="bg-blue-900 text-white font-semibold py-2 px-4 rounded-md transition-all duration-300 hover:bg-blue-800">
+            <IonButton expand="block" fill="clear" onClick={bookTest} className="bg-blue-900 text-white font-semibold py-2 px-4 rounded-md transition-all duration-300 hover:bg-blue-800 ">
               Book Test
             </IonButton>
           </IonContent>
         </IonModal>
 
-        <IonButton expand="block" className="mt-6 bg-blue-600 text-white font-semibold py-3 px-6 rounded-md transition-all duration-300 hover:bg-blue-700" onClick={() => setQueues(prevQueues => 
-          Object.keys(prevQueues).reduce((acc, labId: string) => ({
-            ...acc,
-            [labId]: {
-              ...prevQueues[parseInt(labId)],
-              current: prevQueues[parseInt(labId)].current + 1,
-              total: Math.max(0, prevQueues[parseInt(labId)].total - 1)
-            }
-          }), {})
-        )}>
-          Next Patient (All Labs)
-        </IonButton>
+        
       </IonContent>
     </IonApp>
   );
