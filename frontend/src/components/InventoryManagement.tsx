@@ -29,7 +29,7 @@ const InventoryComponent: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Pharmacy Inventory</IonTitle>
+          <IonTitle className="text-white">Pharmacy Inventory</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
