@@ -43,7 +43,7 @@ import Signup from "./pages/Signup/Signup";
 import BedAvailability from './pages/BedAvailability/BedAvailability.js';
 import LabManagementComponent from "./components/LabManagementComponent";
 import InventoryManagement from './pages/InventoryManagement/InventoryManagement';
-import AdminInventoryManagement from './pages/InventoryManagement/AdminInventoryManagement';
+
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -59,7 +59,6 @@ const App: React.FC = () => {
           <Route path="/bedavailability" component={BedAvailability} />
           <Route path="/labmanagement" component={LabManagementComponent} />
           <Route path="/inventory" component={InventoryManagement} />
-          <Route path="/admininventory" component={AdminInventoryManagement} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
