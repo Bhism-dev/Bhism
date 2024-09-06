@@ -228,8 +228,13 @@ router.post("/verify/email", async (req, res) => {
         return res.status(400).send({ error: "Invalid OTP" });
     }
 
-    verifyOtpRequest(otpRequest.email);
+    const verifiedOtpRequest = await verifyOtpRequest({ email });
+
+    if (!verifiedOtpRequest) {
+        return res.status(500).send({ error: "Failed to verify OTP" });
+    } else {
     res.status(200).send({ message: "OTP verified successfully" });
+    }
 });
 
 router.post("/verify/phone", async (req, res) => {
@@ -241,8 +246,13 @@ router.post("/verify/phone", async (req, res) => {
         return res.status(400).send({ error: "Invalid OTP" });
     }
 
-    verifyOtpRequest(otpRequest.phone);
+    const verifiedOtpRequest = await verifyOtpRequest({ phone });
+
+    if (!verifiedOtpRequest) {
+        return res.status(500).send({ error: "Failed to verify OTP" });
+    } else {
     res.status(200).send({ message: "OTP verified successfully" });
+    }
 });
 
 export default router;
