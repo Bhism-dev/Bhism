@@ -50,8 +50,8 @@ export const resetPassword = async (contact: { phone?: string; email?: string; }
 };
 
 // Update token
-export const updateUserToken = async (email: string, token: string) => {
-  const result = await query('UPDATE users SET token = $1 WHERE email = $2 RETURNING *', [token, email]);
+export const updateUserToken = async (phone: string, token: string) => {
+  const result = await query('UPDATE users SET token = $1 WHERE phone = $2 RETURNING *', [token, phone]);
   return result.rows[0];
 };
 
