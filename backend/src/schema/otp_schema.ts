@@ -34,6 +34,14 @@ export const validateOtpRequest = async (contact: { phone?: string; email?: stri
     return result.rows[0];
 };
 
+// Mark OTP request as verified
+export const verifyOtpRequest = async (contact: { phone?: string; email?: string; }) => {
+    const queryText = 'UPDATE otp_requests SET is_verified = TRUE WHERE phone_number = $1 OR email = $2 RETURNING *';
+    const values = [contact.phone || null, contact.email || null];
+    const result = await query(queryText, values);
+    return result.rows[0];
+};
+
 const deleteExpiredOtps = async (): Promise<void> => {
     await query(`DELETE FROM otp_requests WHERE expires_at <= NOW()`);
 };

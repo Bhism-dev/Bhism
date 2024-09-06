@@ -35,30 +35,11 @@ export const findUserByEmail = async (email: string) => {
   return result.rows[0];
 };
 
-// Update user OTP Email
-export const updateUserOTPEmail = async (email: string, otp: string) => {
-  const result = await query('UPDATE users SET otp = $1 WHERE email = $2 RETURNING *', [otp, email]);
+// Find user by phone
+export const findUserByPhone = async (phone: string) => {
+  const result = await query('SELECT * FROM users WHERE phone = $1', [phone]);
   return result.rows[0];
 };
-
-// Find otp by email
-export const findOTPByEmail = async (email: string) => {
-  const result = await query('SELECT otp FROM users WHERE email = $1', [email]);
-  return result.rows[0];
-};
-
-// Update user OTP Phone
-export const updateUserOTPPhone = async (phone: string, otp: string) => {
-  const result = await query('UPDATE users SET otp = $1 WHERE phone = $2 RETURNING *', [otp, phone]);
-  return result.rows[0];
-};
-
-// Find otp by phone
-export const findOTPByPhone = async (phone: string) => {
-  const result = await query('SELECT otp FROM users WHERE phone = $1', [phone]);
-  return result.rows[0];
-};
-
 
 // Update token
 export const updateUserToken = async (email: string, token: string) => {

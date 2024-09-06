@@ -63,8 +63,7 @@ router.get('/verify-token', (req, res) => {
 
 // Forgot password
 router.post('/forgot-password', async (req, res) => {
-  // Logic for forgot password (Generate OTP, send email)
-  res.json({ message: 'OTP sent to email' });
+  
 });
 
 // Reset password

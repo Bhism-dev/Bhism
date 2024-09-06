@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import axios from "axios";
 
-import { insertOtpRequest, validateOtpRequest } from "../../schema/otp_schema";
+import { insertOtpRequest, validateOtpRequest, verifyOtpRequest } from "../../schema/otp_schema";
 
 const router = express.Router();
 
@@ -228,6 +228,7 @@ router.post("/verify/email", async (req, res) => {
         return res.status(400).send({ error: "Invalid OTP" });
     }
 
+    verifyOtpRequest(otpRequest.email);
     res.status(200).send({ message: "OTP verified successfully" });
 });
 
@@ -240,6 +241,7 @@ router.post("/verify/phone", async (req, res) => {
         return res.status(400).send({ error: "Invalid OTP" });
     }
 
+    verifyOtpRequest(otpRequest.phone);
     res.status(200).send({ message: "OTP verified successfully" });
 });
 
