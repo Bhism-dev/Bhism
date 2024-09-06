@@ -3,6 +3,8 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import axios from "axios";
 
+import { insertOtpRequest, validateOtpRequest } from "../../schema/otp_schema";
+
 const router = express.Router();
 
 dotenv.config({path: "../.env"});
@@ -19,6 +21,9 @@ function generateOTP(): string {
 router.post("/email", async (req, res) => {
     const { email } = req.body;
     const otp = generateOTP();
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+    await insertOtpRequest({ email }, otp, expiresAt);  
 
     let transporter = nodemailer.createTransport({
         host: "smtp.naver.com",
@@ -181,15 +186,15 @@ a[x-apple-data-detectors],
 </html>`,
     });
 
-    res.status(200).send({ otp });
-
-    console.log("Message sent: %s", info.messageId);
-
+    res.status(200).send("Email sent successfully");
 });
 
 router.post("/phone", async (req, res) => {
     const { phone } = req.body;
     const otp = generateOTP();
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+    await insertOtpRequest({ phone }, otp, expiresAt);
 
     const headers = {
         "authorization": process.env.SMS_AUTH_KEY?.toString(),
@@ -207,12 +212,35 @@ router.post("/phone", async (req, res) => {
 
     try {
         const response = await axios.post("https://www.fast2sms.com/dev/bulkV2", body, { headers });
-        console.log("Message sent: %s", response.data);
-        res.status(200).send({ otp });
+        res.status(200).send("OTP sent successfully");
     } catch (error) {
         console.error("Error sending OTP:", error);
         res.status(500).send({ error: "Failed to send OTP" });
     }
+});
+
+router.post("/verify/email", async (req, res) => {
+    const { email, otp } = req.body;
+
+    const otpRequest = await validateOtpRequest({ email }, otp);
+
+    if (!otpRequest) {
+        return res.status(400).send({ error: "Invalid OTP" });
+    }
+
+    res.status(200).send({ message: "OTP verified successfully" });
+});
+
+router.post("/verify/phone", async (req, res) => {
+    const { phone, otp } = req.body;
+
+    const otpRequest = await validateOtpRequest({ phone }, otp);
+
+    if (!otpRequest) {
+        return res.status(400).send({ error: "Invalid OTP" });
+    }
+
+    res.status(200).send({ message: "OTP verified successfully" });
 });
 
 export default router;
