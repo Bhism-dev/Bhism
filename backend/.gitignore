@@ -1,20 +1,4 @@
-# Compiled files
-/target/
-
-# Dependency directories
-Cargo.lock
-Cargo.toml.orig
-Cargo.toml.bkp
-
-# Build artifacts
-*.rs.bk
-
-# Editor/IDE specific files
-.vscode/
-.idea/
-
-# Generated documentation
-/doc/
-
-# Private files
+node_modules
+dist
 .env
+ca.pem
