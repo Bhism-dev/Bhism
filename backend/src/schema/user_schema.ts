@@ -41,6 +41,14 @@ export const findUserByPhone = async (phone: string) => {
   return result.rows[0];
 };
 
+// resetPassword
+export const resetPassword = async (contact: { phone?: string; email?: string; }, password: string) => {
+  const queryText = 'UPDATE users SET password = $1 WHERE phone = $2 OR email = $3 RETURNING *';
+  const values = [password, contact.phone || null, contact.email || null];
+  const result = await query(queryText, values);
+  return result.rows[0];
+};
+
 // Update token
 export const updateUserToken = async (email: string, token: string) => {
   const result = await query('UPDATE users SET token = $1 WHERE email = $2 RETURNING *', [token, email]);

@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { insertUser, findUserByEmail, updateUserToken } from '../../schema/user_schema';
+import { insertUser, findUserByEmail, findUserByPhone, updateUserToken, resetPassword } from '../../schema/user_schema';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -61,15 +61,68 @@ router.get('/verify-token', (req, res) => {
   }
 });
 
-// Forgot password
+// Forgot password route
 router.post('/forgot-password', async (req, res) => {
-  
+  const { email, phone } = req.body;
+  let user;
+  try {
+    // Check if the user exists by email or phone
+    if (email) {
+      user = await findUserByEmail(email);
+    } else if (phone) {
+      user = await findUserByPhone(phone);
+    } else {
+      return res.status(400).json({ message: 'Please provide an email or phone number' });
+    }
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Send OTP
+    const otpRoute = email ? '/otp/email' : '/otp/phone';
+    // Assuming sendOtp is a function that sends an OTP to the user
+    // This is a placeholder for actual OTP sending logic
+    await sendOtp(otpRoute, { email, phone });
+
+    // Verify OTP
+    const otpVerifyRoute = email ? '/otp/verify/email' : '/otp/verify/phone';
+    // Assuming verifyOtp is a function that verifies the OTP sent to the user
+    // This is a placeholder for actual OTP verification logic
+    const otpVerified = await verifyOtp(otpVerifyRoute, { email, phone });
+    if (!otpVerified) return res.status(400).json({ message: 'OTP verification failed' });
+
+    res.status(200).send({ message: "OTP verified successfully" });
+  } catch (err: any) {
+    res.status(500).json({ message: 'Error processing your request', error: err.message });
+  }
 });
 
-// Reset password
+// Reset password route
 router.post('/reset-password', async (req, res) => {
-  // Logic for resetting password with OTP
-  res.json({ message: 'Password reset successful' });
+  const { email, phone, newPassword } = req.body;
+  try {
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Reset password
+    const user = await resetPassword({ email, phone }, hashedPassword);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.status(200).json({ message: 'Password reset successfully' });
+  } catch (err: any) {
+    res.status(500).json({ message: 'Error resetting password', error: err.message });
+  }
 });
+
+// Assuming sendOtp and verifyOtp are defined elsewhere in your application
+// These functions are placeholders for the actual logic to send and verify OTPs
+async function sendOtp(route: string, contact: { email?: string; phone?: string; }) {
+  // Implement OTP sending logic here
+}
+
+async function verifyOtp(route: string, contact: { email?: string; phone?: string; }) {
+  // Implement OTP verification logic here
+  // This should return true if OTP is verified successfully, otherwise false
+  return true; // Placeholder return value
+}
 
 export default router;
