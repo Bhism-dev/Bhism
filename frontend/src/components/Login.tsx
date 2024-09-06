@@ -10,6 +10,7 @@ import {
   IonButton,
   IonItem,
   IonText,
+  IonInputPasswordToggle,
 } from "@ionic/react";
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
 
@@ -86,48 +87,45 @@ const LoginForm: React.FC = () => {
             {segment === "mobile" && (
               <div className="mt-4">
                 <form onSubmit={handleSubmit}>
-                <IonItem>
-                  <IonInput
-                    type="tel"
-                    value={phone}
-                    onIonChange={(e) => setPhone(e.detail.value ?? "")}
-                    placeholder="Enter your mobile number"
-                  />
-                </IonItem>
-                {!showPassword && (
-                  <>
-                    <IonButton
-                      expand="full"
-                      className="mt-4"
-                      onClick={handleLoginWithPasswordClick}
-                    >
-                      Login with Password
-                    </IonButton>
-                    <IonButton expand="full" className="mt-2" color="medium">
-                      Login with OTP
-                    </IonButton>
-                  </>
-                )}
-                {showPassword && (
-                  <>
-                    <IonItem>
-                      <IonInput
-                        type="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onIonChange={(e) => setPassword(e.detail.value ?? "")}
-                      />
-                    </IonItem>
-                    <IonButton
-                      expand="full"
-                      className="mt-4"
-                      type="submit"
-                    >
-                      Login
-                    </IonButton>
-                  </>
-                )}
-                
+                  <IonItem>
+                    <IonInput
+                      type="tel"
+                      value={phone}
+                      onIonChange={(e) => setPhone(e.detail.value ?? "")}
+                      placeholder="Enter your mobile number"
+                    />
+                  </IonItem>
+                  {!showPassword && (
+                    <>
+                      <IonButton
+                        expand="full"
+                        className="mt-4"
+                        onClick={handleLoginWithPasswordClick}
+                      >
+                        Login with Password
+                      </IonButton>
+                      <IonButton expand="full" className="mt-2" color="medium">
+                        Login with OTP
+                      </IonButton>
+                    </>
+                  )}
+                  {showPassword && (
+                    <>
+                      <IonItem>
+                        <IonInput
+                          type="password"
+                          placeholder="Enter your password"
+                          value={password}
+                          onIonChange={(e) => setPassword(e.detail.value ?? "")}
+                        >
+                          <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                        </IonInput>
+                      </IonItem>
+                      <IonButton expand="full" className="mt-4" type="submit">
+                        Login
+                      </IonButton>
+                    </>
+                  )}
                 </form>
               </div>
             )}
