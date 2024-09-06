@@ -21,16 +21,16 @@ router.post('/signup', async (req, res) => {
 
 // Signin route
 router.post('/signin', async (req, res) => {
-  const { email, password } = req.body;
+  const { phone, password } = req.body;
   try {
-    const user = await findUserByEmail(email);
+    const user = await findUserByPhone(phone);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-    await updateUserToken(email, token);
+    await updateUserToken(phone, token);
     res.json({ token });
   } catch (err: any) {
     res.status(500).json({ message: 'Error signing in', error: err.message });
