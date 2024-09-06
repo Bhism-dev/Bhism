@@ -61,41 +61,6 @@ router.get('/verify-token', (req, res) => {
   }
 });
 
-// Forgot password route
-router.post('/forgot-password', async (req, res) => {
-  const { email, phone } = req.body;
-  let user;
-  try {
-    // Check if the user exists by email or phone
-    if (email) {
-      user = await findUserByEmail(email);
-    } else if (phone) {
-      user = await findUserByPhone(phone);
-    } else {
-      return res.status(400).json({ message: 'Please provide an email or phone number' });
-    }
-
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    // Send OTP
-    const otpRoute = email ? '/otp/email' : '/otp/phone';
-    // Assuming sendOtp is a function that sends an OTP to the user
-    // This is a placeholder for actual OTP sending logic
-    await sendOtp(otpRoute, { email, phone });
-
-    // Verify OTP
-    const otpVerifyRoute = email ? '/otp/verify/email' : '/otp/verify/phone';
-    // Assuming verifyOtp is a function that verifies the OTP sent to the user
-    // This is a placeholder for actual OTP verification logic
-    const otpVerified = await verifyOtp(otpVerifyRoute, { email, phone });
-    if (!otpVerified) return res.status(400).json({ message: 'OTP verification failed' });
-
-    res.status(200).send({ message: "OTP verified successfully" });
-  } catch (err: any) {
-    res.status(500).json({ message: 'Error processing your request', error: err.message });
-  }
-});
-
 // Reset password route
 router.post('/reset-password', async (req, res) => {
   const { email, phone, newPassword } = req.body;
