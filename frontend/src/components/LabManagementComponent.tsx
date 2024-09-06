@@ -11,7 +11,6 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonImg,
   IonModal,
   IonRadioGroup,
   IonRadio,
@@ -20,44 +19,50 @@ import {
   IonList,
   IonIcon
 } from '@ionic/react';
-import { close, chevronDown } from 'ionicons/icons';
+import { close, chevronDown, flaskOutline, bodyOutline, magnetOutline, scanOutline, pulseOutline, heartOutline } from 'ionicons/icons';
 import './LabManagement.css'
 
 const labs = [
   { 
     id: 1, 
     name: "Blood Test Lab", 
-    image: "/placeholder.svg?height=100&width=100",
+    icon: flaskOutline,
+    color: "text-red-500", // Color for the icon
     tests: ["Complete Blood Count", "Lipid Profile", "Glucose Test"]
   },
   { 
     id: 2, 
     name: "X-Ray Lab", 
-    image: "/placeholder.svg?height=100&width=100",
+    icon: bodyOutline,
+    color: "text-blue-500",
     tests: ["Chest X-Ray", "Bone X-Ray", "Dental X-Ray"]
   },
   { 
     id: 3, 
     name: "MRI Lab", 
-    image: "/placeholder.svg?height=100&width=100",
+    icon: magnetOutline,
+    color: "text-purple-500",
     tests: ["Brain MRI", "Spine MRI", "Joint MRI"]
   },
   { 
     id: 4, 
     name: "CT Scan Lab", 
-    image: "/placeholder.svg?height=100&width=100",
+    icon: scanOutline,
+    color: "text-green-500",
     tests: ["Head CT", "Chest CT", "Abdominal CT"]
   },
   { 
     id: 5, 
     name: "Ultrasound Lab", 
-    image: "/placeholder.svg?height=100&width=100",
+    icon: pulseOutline,
+    color: "text-yellow-500",
     tests: ["Abdominal Ultrasound", "Cardiac Ultrasound", "Pregnancy Ultrasound"]
   },
   { 
     id: 6, 
     name: "ECG Lab", 
-    image: "/placeholder.svg?height=100&width=100",
+    icon: heartOutline,
+    color: "text-pink-500",
     tests: ["Resting ECG", "Stress ECG", "Holter Monitor"]
   },
 ];
@@ -65,7 +70,8 @@ const labs = [
 interface Lab {
   id: number;
   name: string;
-  image: string;
+  icon: string;
+  color: string;
   tests: string[];
 }
 
@@ -125,7 +131,7 @@ export default function LabManagementComponent() {
                 >
                   <IonCardContent className="flex flex-col items-center justify-between h-full p-4">
                     <div className="flex flex-col items-center flex-grow justify-center">
-                      <IonImg src={lab.image} alt={lab.name} className="w-20 h-20 mb-4 rounded-full border-2 border-blue-900" />
+                      <IonIcon icon={lab.icon} className={`w-20 h-20 mb-4 ${lab.color}`} />
                       <h2 className="text-lg font-semibold text-center text-gray-800">{lab.name}</h2>
                     </div>
                     <div className="w-full flex justify-between text-sm text-gray-600 mt-4">
@@ -215,7 +221,6 @@ export default function LabManagementComponent() {
           </IonContent>
         </IonModal>
 
-        
       </IonContent>
     </IonApp>
   );

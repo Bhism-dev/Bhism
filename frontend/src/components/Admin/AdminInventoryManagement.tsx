@@ -36,9 +36,9 @@ const InventoryAdminComponent: React.FC = () => {
         setNewMedicineId(newMedicineId + 1);
     };
 
-    // Save changes
-    const handleSave = (serialNumber: number) => {
-        console.log('Saved changes for medicine with serial number:', serialNumber);
+    // Save changes for all medicines
+    const handleSaveAll = () => {
+        console.log('Saved changes for all medicines:', medicines);
     };
 
     // Update medicine fields
@@ -124,21 +124,16 @@ const InventoryAdminComponent: React.FC = () => {
                                             </IonItem>
                                         </IonCol>
                                     </IonRow>
-                                    <IonRow>
-                                        <IonCol size="12" className="text-right">
-                                            <IonButton
-                                                color="primary"
-                                                onClick={() => handleSave(medicine.serialNumber)}
-                                            >
-                                                Save Changes
-                                            </IonButton>
-                                        </IonCol>
-                                    </IonRow>
                                 </IonGrid>
                             </IonCardContent>
                         </IonCard>
                     ))}
                 </IonGrid>
+
+                {/* Save All Button */}
+                <IonButton expand="full" color="success" onClick={handleSaveAll}>
+                    Save All Changes
+                </IonButton>
             </IonContent>
         </IonPage>
     );
