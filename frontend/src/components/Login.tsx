@@ -24,11 +24,10 @@ const LoginForm: React.FC = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [abhaId, setAbhaId] = useState(""); // State for ABHA ID
   const inputRefs = useRef<(HTMLIonInputElement | null)[]>(Array(6).fill(null));
   const [submit, setSubmit] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
-  // const [otp, setValues] = React.useState(['', '', '']);
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -40,11 +39,11 @@ const LoginForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (submit && phone && password) {
-      handleLogin(phone, password);
+    if (submit && (phone || abhaId) && password) {
+      handleLogin(phone || abhaId, password);
       setSubmit(false);
     }
-  }, [submit, phone, password]);
+  }, [submit, phone, abhaId, password]);
 
   const handleSegmentChange = (e: CustomEvent) => {
     setSegment(e.detail.value as "mobile" | "abha");
@@ -57,12 +56,17 @@ const LoginForm: React.FC = () => {
   };
 
   const handleLoginWithOtpClick = async () => {
-    setPhone(phone);
+    if (phone) {
+      setPhone(phone);
+    } else {
+      setAbhaId(abhaId);
+    }
+
     try {
       const response = await fetch("http://localhost:3000/otp/phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({ phone: phone || abhaId }),
       });
 
       if (response.ok) {
@@ -83,7 +87,7 @@ const LoginForm: React.FC = () => {
     }
   };
 
-  const handleLogin = async (currentPhone: string, currentPassword: string) => {
+  const handleLogin = async (currentIdentifier: string, currentPassword: string) => {
     try {
       const response = await fetch("http://localhost:3000/auth/signin", {
         method: "POST",
@@ -91,18 +95,16 @@ const LoginForm: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          phone: currentPhone,
+          identifier: currentIdentifier,
           password: currentPassword,
         }),
       });
       const data = await response.json();
-      // console.log("data ", data);
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
         setAlertMessage("Login successful");
       } else {
-        // Handle different error responses
         if (data.message === "Invalid credentials") {
           setAlertMessage("Invalid credentials");
         } else if (data.message === "User not found") {
@@ -117,10 +119,6 @@ const LoginForm: React.FC = () => {
   };
 
   const handleOtpSubmit = async () => {
-    // if(phone==="") {
-    //   setAlertMessage('Please enter your mobile number');
-    //   return;
-    // }
     try {
       const response = await fetch("http://localhost:3000/otp/verify/phone", {
         method: "POST",
@@ -128,14 +126,12 @@ const LoginForm: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          phone,
+          phone: phone || abhaId,
           otp: otp.join(""),
         }),
       });
-      // console.log("response ", response);
 
       const data = await response.json();
-      // console.log("token: ",data.token);
 
       if (data.message === "OTP verified successfully") {
         localStorage.setItem("token", data.token);
@@ -179,9 +175,9 @@ const LoginForm: React.FC = () => {
               </IonSegmentButton>
             </IonSegment>
 
-            {segment === "mobile" && (
-              <div className="mt-4">
-                <form onSubmit={handleSubmit}>
+            <div className="mt-4">
+              <form onSubmit={handleSubmit}>
+                {segment === "mobile" && (
                   <IonItem>
                     <IonInput
                       ref={async (phoneRef) => {
@@ -198,87 +194,95 @@ const LoginForm: React.FC = () => {
                       labelPlacement="floating"
                     />
                   </IonItem>
-                  {!showPassword && !showOtp && (
-                    <>
-                      <IonButton
-                        expand="full"
-                        className="mt-4"
-                        onClick={handleLoginWithPasswordClick}
-                      >
-                        Login with Password
-                      </IonButton>
-                      <IonButton
-                        expand="full"
-                        className="mt-2"
-                        color="medium"
-                        onClick={handleLoginWithOtpClick}
-                      >
-                        Login with OTP
-                      </IonButton>
-                    </>
-                  )}
-                  {showPassword && (
-                    <>
-                      <IonItem>
-                        <IonInput
-                          type="password"
-                          placeholder="Enter your password"
-                          value={password}
-                          onIonChange={(e) => setPassword(e.detail.value ?? "")}
-                        >
-                          <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
-                        </IonInput>
-                      </IonItem>
-                      <IonButton expand="full" className="mt-4" type="submit">
-                        Login
-                      </IonButton>
-                    </>
-                  )}
+                )}
 
-                  {showOtp && (
+                {segment === "abha" && (
+                  <IonItem>
+                    <IonInput
+                      type="text"
+                      placeholder="Enter your ABHA ID"
+                      value={abhaId}
+                      onIonChange={(e) => setAbhaId(e.detail.value ?? "")}
+                      label="ABHA ID"
+                      labelPlacement="floating"
+                    />
+                  </IonItem>
+                )}
+
+                {!showPassword && !showOtp && (
+                  <>
+                    <IonButton
+                      expand="full"
+                      className="mt-4"
+                      onClick={handleLoginWithPasswordClick}
+                    >
+                      Login with Password
+                    </IonButton>
+                    <IonButton
+                      expand="full"
+                      className="mt-2"
+                      color="medium"
+                      onClick={handleLoginWithOtpClick}
+                    >
+                      Login with OTP
+                    </IonButton>
+                    <div className="text-center mt-6">
+                      <IonText color="medium">
+                        <p>
+                          Don't have an Account?{" "}
+                          <Link to="/signup" className="text-blue-500">
+                            Create one
+                          </Link>
+                        </p>
+                      </IonText>
+                    </div>
+                  </>
+                )}
+
+                {showPassword && (
+                  <>
+                    <IonItem>
+                      <IonInput
+                        type="password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onIonChange={(e) => setPassword(e.detail.value ?? "")}
+                      >
+                        <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                      </IonInput>
+                    </IonItem>
+                    <IonButton expand="full" className="mt-4" type="submit">
+                      Login
+                    </IonButton>
+                  </>
+                )}
+
+                {showOtp && (
+                  <>
                     <PinInput
                       values={otp}
-                      autoFocus={true}
-                      onChange={(value, index, values) => setOtp(values)}
+                      onChange={(
+                        value: string | string[],
+                        index: number,
+                        allValues: string[]
+                      ) => {
+                        const newOtp = [...allValues];
+                        newOtp[index] = typeof value === "string" ? value : value[0];
+                        setOtp(newOtp);
+                      }}
                       size="lg"
                       containerClassName="justify-center my-4"
                       inputClassName="mx-2"
                       placeholder=""
                       validBorderColor="rgb(13,110,253)"
                     />
-                  )}
-
-                  {showOtp && (
                     <IonButton expand="full" className="mt-4" type="submit">
                       Verify OTP
                     </IonButton>
-                  )}
-                </form>
-              </div>
-            )}
-
-            {segment === "abha" && (
-              <>
-                <div className="mt-4">
-                  <IonItem>
-                    <IonInput type="text" placeholder="Enter your ABHA ID" />
-                  </IonItem>
-                  <IonButton expand="full" className="mt-4">
-                    Request OTP
-                  </IonButton>
-                </div>
-                <div className="text-center mt-6">
-                  <IonText color="medium">
-                    <p>
-                      Don't have an ABHA ID?{" "}
-                      <Link to="/create-abha" className="text-blue-500">
-                        Create one
-                      </Link>
-                    </p>
-                  </IonText>
-                </div>
-              </>
-            )}
+                  </>
+                )}
+              </form>
+            </div>
           </div>
         </div>
 
@@ -287,7 +291,7 @@ const LoginForm: React.FC = () => {
           <IonAlert
             isOpen={!!alertMessage}
             onDidDismiss={() => setAlertMessage(null)}
-            header={"Alert"}
+            header="Alert"
             message={alertMessage}
             buttons={["OK"]}
           />
