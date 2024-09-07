@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import {
     IonContent, IonPage, IonCol, IonRow, IonGrid, IonText, IonCard, IonCardContent,
-    IonSearchbar, IonItem, IonInput, IonButton, IonToggle, IonSelect, IonSelectOption, IonLabel, IonModal
+    IonSearchbar, IonItem, IonInput, IonButton, IonToggle, IonSelect, IonSelectOption, IonLabel, IonModal, IonHeader, IonFooter,
+    IonBackButton,
+    IonButtons,
+    IonToolbar, IonTitle
 } from '@ionic/react';
 import '../../theme/tailwind.css';
 
@@ -18,7 +21,13 @@ const AdminBedAvailabilityComponent: React.FC = () => {
         { bedNumber: '101', available: true, floor: '1', ward: 'OPD' },
         { bedNumber: '102', available: false, floor: '1', ward: 'ICU' },
         { bedNumber: '103', available: true, floor: '2', ward: 'OPD' },
-        { bedNumber: '104', available: false, floor: '2', ward: 'General' }
+        { bedNumber: '104', available: false, floor: '2', ward: 'General' },
+        { bedNumber: '105', available: true, floor: '3', ward: 'General' },
+        { bedNumber: '106', available: false, floor: '3', ward: 'ICU' },
+        { bedNumber: '107', available: true, floor: '4', ward: 'OPD' },
+        { bedNumber: '108', available: false, floor: '4', ward: 'General' },
+        { bedNumber: '109', available: true, floor: '5', ward: 'General' },
+        { bedNumber: '110', available: false, floor: '5', ward: 'ICU' },
     ]);
 
     const [searchText, setSearchText] = useState('');
@@ -63,7 +72,14 @@ const AdminBedAvailabilityComponent: React.FC = () => {
 
     return (
         <IonPage>
-            <IonContent className="ion-padding">
+            <IonHeader className='bg-white ion-padding pb-0'>
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="/login" />
+                    </IonButtons>
+                    <IonTitle>Add Bed</IonTitle>
+                </IonToolbar>
+
                 {/* Search Bar */}
                 <IonSearchbar
                     value={searchText}
@@ -75,7 +91,9 @@ const AdminBedAvailabilityComponent: React.FC = () => {
                 <IonButton expand="full" color="primary" className="mb-4" onClick={() => setIsModalOpen(true)}>
                     Add New Bed
                 </IonButton>
+            </IonHeader>
 
+            <IonContent className="ion-padding">
                 {/* Bed List */}
                 <IonGrid>
                     {filteredBeds.map((bed) => (
@@ -107,72 +125,76 @@ const AdminBedAvailabilityComponent: React.FC = () => {
                         </IonCard>
                     ))}
                 </IonGrid>
+            </IonContent>
+
+
+            <IonFooter className='bg-white ion-padding pt-0 pb-1'>
 
                 {/* Save All Button */}
                 <IonButton expand="full" color="success" onClick={handleSaveAll}>
                     Save All Changes
                 </IonButton>
+            </IonFooter>
 
-                {/* Modal for Adding a New Bed */}
-                <IonModal isOpen={isModalOpen} onDidDismiss={() => setIsModalOpen(false)}>
-                    <IonContent className="ion-padding">
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol>
-                                    <IonItem>
-                                        <IonLabel>Ward</IonLabel>
-                                        <IonSelect
-                                            value={newBed.ward}
-                                            placeholder="Select Ward"
-                                            onIonChange={(e) => setNewBed({ ...newBed, ward: e.detail.value! })}
-                                        >
-                                            <IonSelectOption value="OPD">OPD</IonSelectOption>
-                                            <IonSelectOption value="General">General</IonSelectOption>
-                                            <IonSelectOption value="ICU">ICU</IonSelectOption>
-                                        </IonSelect>
-                                    </IonItem>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol>
-                                    <IonItem>
-                                        <IonInput
-                                            value={newBed.floor}
-                                            placeholder="Enter Floor Number"
-                                            onIonChange={(e) => setNewBed({ ...newBed, floor: e.detail.value! })}
-                                        />
-                                    </IonItem>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol>
-                                    <IonItem>
-                                        <IonInput
-                                            value={newBed.bedNumber}
-                                            placeholder="Enter Bed Number"
-                                            onIonChange={(e) => setNewBed({ ...newBed, bedNumber: e.detail.value! })}
-                                        />
-                                    </IonItem>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol>
-                                    <IonButton expand="full" onClick={handleAddBed}>
-                                        Add Bed
-                                    </IonButton>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol>
-                                    <IonButton expand="full" color="light" onClick={() => setIsModalOpen(false)}>
-                                        Cancel
-                                    </IonButton>
-                                </IonCol>
-                            </IonRow>
-                        </IonGrid>
-                    </IonContent>
-                </IonModal>
-            </IonContent>
+            {/* Modal for Adding a New Bed */}
+            <IonModal isOpen={isModalOpen} onDidDismiss={() => setIsModalOpen(false)}>
+                <IonContent className="ion-padding">
+                    <IonGrid>
+                        <IonRow>
+                            <IonCol>
+                                <IonItem>
+                                    <IonLabel>Ward</IonLabel>
+                                    <IonSelect
+                                        value={newBed.ward}
+                                        placeholder="Select Ward"
+                                        onIonChange={(e) => setNewBed({ ...newBed, ward: e.detail.value! })}
+                                    >
+                                        <IonSelectOption value="OPD">OPD</IonSelectOption>
+                                        <IonSelectOption value="General">General</IonSelectOption>
+                                        <IonSelectOption value="ICU">ICU</IonSelectOption>
+                                    </IonSelect>
+                                </IonItem>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol>
+                                <IonItem>
+                                    <IonInput
+                                        value={newBed.floor}
+                                        placeholder="Enter Floor Number"
+                                        onIonChange={(e) => setNewBed({ ...newBed, floor: e.detail.value! })}
+                                    />
+                                </IonItem>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol>
+                                <IonItem>
+                                    <IonInput
+                                        value={newBed.bedNumber}
+                                        placeholder="Enter Bed Number"
+                                        onIonChange={(e) => setNewBed({ ...newBed, bedNumber: e.detail.value! })}
+                                    />
+                                </IonItem>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol>
+                                <IonButton expand="full" onClick={handleAddBed}>
+                                    Add Bed
+                                </IonButton>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol>
+                                <IonButton expand="full" color="light" onClick={() => setIsModalOpen(false)}>
+                                    Cancel
+                                </IonButton>
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
+                </IonContent>
+            </IonModal>
         </IonPage>
     );
 };

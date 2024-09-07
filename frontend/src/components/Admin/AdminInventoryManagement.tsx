@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
     IonContent, IonPage, IonCol, IonRow, IonGrid, IonText, IonCard, IonCardContent,
-    IonSearchbar, IonItem, IonInput, IonButton, IonToggle, IonCheckbox, IonIcon
+    IonSearchbar, IonItem, IonInput, IonButton, IonToggle, IonCheckbox, IonIcon, IonFooter, IonHeader, IonAlert
 } from '@ionic/react';
 import '../../theme/tailwind.css';
 import { addCircleOutline, trashOutline, closeOutline } from 'ionicons/icons';
@@ -19,13 +19,20 @@ const InventoryAdminComponent: React.FC = () => {
         { serialNumber: 1, name: 'Paracetamol', numberOfItems: 20, available: true },
         { serialNumber: 2, name: 'Ibuprofen', numberOfItems: 'N/A', available: false },
         { serialNumber: 3, name: 'Amoxicillin', numberOfItems: 15, available: true },
-        { serialNumber: 4, name: 'Aspirin', numberOfItems: 'N/A', available: false }
+        { serialNumber: 4, name: 'Aspirin', numberOfItems: 'N/A', available: false },
+        { serialNumber: 5, name: 'Ciprofloxacin', numberOfItems: 10, available: true },
+        { serialNumber: 6, name: 'Doxycycline', numberOfItems: 'N/A', available: false },
+        { serialNumber: 7, name: 'Metronidazole', numberOfItems: 5, available: true },
+        { serialNumber: 8, name: 'Azithromycin', numberOfItems: 'N/A', available: false },
+        { serialNumber: 9, name: 'Clarithromycin', numberOfItems: 10, available: true },
+        { serialNumber: 10, name: 'Ceftriaxone', numberOfItems: 'N/A', available: false },
     ]);
 
     const [searchText, setSearchText] = useState('');
     const [newMedicineId, setNewMedicineId] = useState<number>(medicines.length + 1);
     const [deleteMode, setDeleteMode] = useState<boolean>(false);
     const [selectedMedicines, setSelectedMedicines] = useState<Set<number>>(new Set());
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
     // Add new medicine entry
     const handleAddMedicine = () => {
@@ -101,7 +108,8 @@ const InventoryAdminComponent: React.FC = () => {
 
     return (
         <IonPage>
-            <IonContent className="ion-padding">
+            <IonHeader className='bg-white ion-padding pb-0'>
+
                 {/* Search Bar */}
                 <IonSearchbar
                     value={searchText}
@@ -111,32 +119,35 @@ const InventoryAdminComponent: React.FC = () => {
 
                 {/* Add Medicine Button */}
                 <IonRow className="mb-4">
-                    <IonCol size="6">
+                    <IonCol size="12" sizeMd="6" className='m-0 p-0 px-1'>
                         <IonButton
-                            expand="full"
+                            expand="block"
                             color="primary"
                             onClick={handleAddMedicine}
+                            disabled={deleteMode ? true : false}
                         >
                             <IonIcon slot="start" icon={addCircleOutline} />
                             Add Medicine
                         </IonButton>
                     </IonCol>
 
-                    <IonCol size="6">
+                    <IonCol size="12" sizeMd="6" className='m-0 p-0 px-1'>
                         <IonButton
-                            expand="full"
+                            expand="block"
                             color={deleteMode ? 'danger' : 'warning'}
                             onClick={() => setDeleteMode(!deleteMode)}
                         >
-                            <IonIcon slot="start" icon={deleteMode ? closeOutline: trashOutline } />
+                            <IonIcon slot="start" icon={deleteMode ? closeOutline : trashOutline} />
                             Delete Medicine
                         </IonButton>
                     </IonCol>
                 </IonRow>
+            </IonHeader>
 
-                {/* Medicine List */}
+            {/* Medicine List */}
+            <IonContent className="ion-padding">
                 <IonGrid>
-                    {filteredMedicines.map((medicine) => (
+                    {filteredMedicines.map((medicine, index) => (
                         <IonCard key={medicine.serialNumber}>
                             <IonCardContent>
                                 <IonGrid>
@@ -152,7 +163,7 @@ const InventoryAdminComponent: React.FC = () => {
                                         <IonCol size="12" sizeMd="2">
                                             <IonText>Serial Number: {medicine.serialNumber}</IonText>
                                         </IonCol>
-                                        <IonCol size="12" sizeMd="4">
+                                        <IonCol size="12" sizeMd="3">
                                             <IonItem>
                                                 <IonInput
                                                     value={medicine.name}
@@ -171,7 +182,7 @@ const InventoryAdminComponent: React.FC = () => {
                                                 />
                                             </IonItem>
                                         </IonCol>
-                                        <IonCol size="12" sizeMd="2">
+                                        <IonCol size="12" sizeMd="4">
                                             <IonItem>
                                                 <IonToggle
                                                     checked={medicine.available}
@@ -187,25 +198,30 @@ const InventoryAdminComponent: React.FC = () => {
                     ))}
                 </IonGrid>
 
+            </IonContent>
+
+
+            <IonFooter className='bg-white ion-padding pt-0 pb-1'>
                 {/* Delete Selected Button */}
                 {deleteMode && (
                     <>
-                        <IonText className="block mb-2">
-                            {selectedMedicines.size} {selectedMedicines.size === 1 ? 'medicine' : 'medicines'} selected
-                        </IonText>
                         <IonRow className="ion-margin-top">
-                            <IonCol size="6">
+                            <IonCol size="12" sizeMd="6" className='m-0 p-0'>
                                 <IonButton
-                                    expand="full"
+                                    expand="block"
                                     color="danger"
-                                    onClick={handleDeleteSelected}
+                                    onClick={() => setAlertMessage('Are you sure you want to delete the selected medicines?')}
                                 >
-                                    Delete Selected Medicines
+                                    {deleteMode && (
+                                        <IonText>
+                                            Delete {selectedMedicines.size} {selectedMedicines.size === 1 ? 'medicine' : 'medicines'}
+                                        </IonText>
+                                    )}
                                 </IonButton>
                             </IonCol>
-                            <IonCol size="6">
+                            <IonCol size="12" sizeMd="6" className='m-0 p-0'>
                                 <IonButton
-                                    expand="full"
+                                    expand="block"
                                     color="medium"
                                     onClick={handleSelectAll}
                                 >
@@ -217,12 +233,35 @@ const InventoryAdminComponent: React.FC = () => {
                 )}
 
 
-
                 {/* Save All Button */}
-                <IonButton expand="full" color="success" onClick={handleSaveAll}>
+                <IonButton expand="block" color="primary" onClick={handleSaveAll} disabled={deleteMode ? true : false}>
                     Save All Changes
                 </IonButton>
-            </IonContent>
+            </IonFooter>
+            {/* Alert Popup */}
+            {alertMessage && (
+                <IonAlert
+                    isOpen={!!alertMessage}
+                    onDidDismiss={() => setAlertMessage(null)}
+                    header={'Alert'}
+                    message={alertMessage}
+                    // buttons={['OK']}
+                    buttons={[
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                        },
+                        {
+                            text: 'OK',
+                            role: 'confirm',
+                            handler: () => {
+                                handleDeleteSelected();
+                            },
+                        },
+                    ]
+                    }
+                />
+            )}
         </IonPage>
     );
 };
