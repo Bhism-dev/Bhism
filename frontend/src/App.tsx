@@ -48,6 +48,8 @@ import AdminInventoryManagement from "./pages/InventoryManagement/AdminInventory
 import AdminBedAvailability from "./pages/BedAvailability/AdminBedAvailability";
 import LabManagement from "./pages/LabManagement/LabManagement";
 import BloodBank from "./pages/BloodBank/BloodBank";
+import StaffAvailability from "./pages/StaffAvailability/StaffAvailability";
+
 
 setupIonicReact();
 
@@ -68,6 +70,7 @@ const App: React.FC = () => {
           <Route path="/admin/inventory" component={AdminInventoryManagement} />
           <Route path="/admin/bedavailability" component={AdminBedAvailability} />
           <Route path="/bloodbank" component={BloodBank} />
+          <Route path="/staff" component={StaffAvailability} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
