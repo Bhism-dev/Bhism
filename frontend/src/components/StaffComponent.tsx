@@ -34,16 +34,16 @@ import {
 } from "ionicons/icons";
 import "../theme/tailwind.css";
 
-// Mock data for doctors with added hospital and registration year properties
+// Mock data for doctors with added degree and specialization properties
 const doctors = [
-  { id: 1, name: "Dr. John Doe", department: "Cardiology", availability: "Available", experience: "10 years", bio: "Specialist in cardiovascular diseases.", hospital: "City Hospital", registrationYear: 2014 },
-  { id: 2, name: "Dr. Jane Smith", department: "Neurology", availability: "Unavailable", experience: "8 years", bio: "Expert in brain and nervous system disorders.", hospital: "Central Clinic", registrationYear: 2016 },
-  { id: 3, name: "Dr. Mike Johnson", department: "Pediatrics", availability: "Available", experience: "12 years", bio: "Specialized in children's healthcare.", hospital: "Greenwood Hospital", registrationYear: 2012 },
-  { id: 4, name: "Dr. Sarah Brown", department: "Oncology", availability: "Available", experience: "7 years", bio: "Specialist in cancer treatment.", hospital: "City Hospital", registrationYear: 2017 },
-  { id: 5, name: "Dr. Chris Lee", department: "Orthopedics", availability: "Unavailable", experience: "15 years", bio: "Expert in bone and joint surgery.", hospital: "Orthopedic Center", registrationYear: 2009 },
-  { id: 6, name: "Dr. Emily Davis", department: "Dermatology", availability: "Available", experience: "9 years", bio: "Expert in skin treatments.", hospital: "Skin Care Clinic", registrationYear: 2015 },
-  { id: 7, name: "Dr. Robert Wilson", department: "Cardiology", availability: "Unavailable", experience: "11 years", bio: "Specialist in heart surgeries.", hospital: "City Hospital", registrationYear: 2013 },
-  { id: 8, name: "Dr. Lisa Anderson", department: "Neurology", availability: "Available", experience: "6 years", bio: "Expert in neurological disorders.", hospital: "Central Clinic", registrationYear: 2018 },
+  { id: 1, name: "Dr. John Doe", department: "Cardiology", availability: "Available", experience: "10 years", bio: "Specialist in cardiovascular diseases.", hospital: "City Hospital", registrationYear: 2014, degree: "MD", specialization: "Interventional Cardiology" },
+  { id: 2, name: "Dr. Jane Smith", department: "Neurology", availability: "Unavailable", experience: "8 years", bio: "Expert in brain and nervous system disorders.", hospital: "Central Clinic", registrationYear: 2016, degree: "PhD", specialization: "Cognitive Neurology" },
+  { id: 3, name: "Dr. Mike Johnson", department: "Pediatrics", availability: "Available", experience: "12 years", bio: "Specialized in children's healthcare.", hospital: "Greenwood Hospital", registrationYear: 2012, degree: "MD", specialization: "Neonatology" },
+  { id: 4, name: "Dr. Sarah Brown", department: "Oncology", availability: "Available", experience: "7 years", bio: "Specialist in cancer treatment.", hospital: "City Hospital", registrationYear: 2017, degree: "MD", specialization: "Medical Oncology" },
+  { id: 5, name: "Dr. Chris Lee", department: "Orthopedics", availability: "Unavailable", experience: "15 years", bio: "Expert in bone and joint surgery.", hospital: "Orthopedic Center", registrationYear: 2009, degree: "DO", specialization: "Joint Replacement" },
+  { id: 6, name: "Dr. Emily Davis", department: "Dermatology", availability: "Available", experience: "9 years", bio: "Expert in skin treatments.", hospital: "Skin Care Clinic", registrationYear: 2015, degree: "MD", specialization: "Dermatopathology" },
+  { id: 7, name: "Dr. Robert Wilson", department: "Cardiology", availability: "Unavailable", experience: "11 years", bio: "Specialist in heart surgeries.", hospital: "City Hospital", registrationYear: 2013, degree: "MD", specialization: "Electrophysiology" },
+  { id: 8, name: "Dr. Lisa Anderson", department: "Neurology", availability: "Available", experience: "6 years", bio: "Expert in neurological disorders.", hospital: "Central Clinic", registrationYear: 2018, degree: "PhD", specialization: "Epileptology" },
 ];
 
 const departments = [...new Set(doctors.map((doctor) => doctor.department))];
@@ -144,7 +144,6 @@ const StaffComponent: React.FC = () => {
             className="bg-white rounded-lg"
           ></IonSearchbar>
 
-
           <IonButtons className="justify-center mb-4">
             <IonButton
               onClick={() => handleFilter("availability", "*")}
@@ -219,6 +218,9 @@ const StaffComponent: React.FC = () => {
                         <p className="text-gray-500 mt-1">
                           Registration Number: {doctor.id}
                         </p>
+                        <p className="text-gray-500 mt-1">
+                          Hospital: {doctor.hospital}
+                        </p>
                       </IonCardHeader>
                       <IonCardContent className="p-4">
                         <div className={`flex items-center mb-2 p-2 ${getStatusBadgeColor(doctor.availability)} rounded-lg`}>
@@ -265,6 +267,8 @@ const StaffComponent: React.FC = () => {
                     <p className="text-gray-600">ID: {selectedDoctor.id}</p>
                     <p className="text-gray-600">Hospital: {selectedDoctor.hospital}</p>
                     <p className="text-gray-600">Year of Registration: {selectedDoctor.registrationYear}</p>
+                    <p className="text-gray-600">Degree: {selectedDoctor.degree}</p>
+                    <p className="text-gray-600">Specialization: {selectedDoctor.specialization}</p>
                   </div>
                 </div>
 
