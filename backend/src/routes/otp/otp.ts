@@ -195,8 +195,10 @@ router.post("/phone", async (req, res) => {
     const otp = generateOTP();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
+    if  (!phone) {
+        return res.status(400).send({ error: "Phone number is required" });
+    }
     await insertOtpRequest({ phone }, otp, expiresAt);
-
     // const headers = {
     //     "authorization": process.env.SMS_AUTH_KEY?.toString(),
     //     "Content-Type": "application/json"
