@@ -197,27 +197,30 @@ router.post("/phone", async (req, res) => {
 
     await insertOtpRequest({ phone }, otp, expiresAt);
 
-    const headers = {
-        "authorization": process.env.SMS_AUTH_KEY?.toString(),
-        "Content-Type": "application/json"
-    };
+    // const headers = {
+    //     "authorization": process.env.SMS_AUTH_KEY?.toString(),
+    //     "Content-Type": "application/json"
+    // };
 
-    const body = {
-        "route": "otp",
-        "variables_values": otp,
-        "numbers": phone,
-        // "route": "q", // this is expensive method. Use "otp" for testing.
-        // "message": `BHISM: Your one time password is ${otp}. It will expire in 10 minutes. Please do not share this code with anyone.`,
-        // "flash": 0,
-    };
+    // const body = {
+    //     "route": "otp",
+    //     "variables_values": otp,
+    //     "numbers": phone,
+    //     // "route": "q", // this is expensive method. Use "otp" for testing.
+    //     // "message": `BHISM: Your one time password is ${otp}. It will expire in 10 minutes. Please do not share this code with anyone.`,
+    //     // "flash": 0,
+    // };
 
-    try {
-        const response = await axios.post("https://www.fast2sms.com/dev/bulkV2", body, { headers });
-        res.status(200).send("OTP sent successfully");
-    } catch (error) {
-        console.error("Error sending OTP:", error);
-        res.status(500).send({ error: "Failed to send OTP" });
-    }
+    // try {
+    //     const response = await axios.post("https://www.fast2sms.com/dev/bulkV2", body, { headers });
+    //     res.status(200).send("OTP sent successfully");
+    // } catch (error) {
+    //     console.error("Error sending OTP:", error);
+    //     res.status(500).send({ error: "Failed to send OTP" });
+    // }
+
+    res.status(200).send("otp : " + otp);
+    console.log("otp : " + otp);
 });
 
 router.post("/verify/email", async (req, res) => {
