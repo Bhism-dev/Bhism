@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 import '../theme/tailwind.css'; // Import the Tailwind CSS file
 
-const SignupForm: React.FC = () => {
+const ForgotPasswordComponent: React.FC = () => {
   const [currentSegment, setCurrentSegment] = useState(1);
   const [formData, setFormData] = useState({
     abhaId: "",
@@ -49,7 +49,7 @@ const SignupForm: React.FC = () => {
         <div className="form-wrapper flex justify-center items-center h-full fixed inset-0">
           {/* Main form container */}
           <div className="w-[28rem] max-w-full shadow-lg p-6 bg-white rounded-lg">
-            <h2 className="text-center text-2xl font-bold mb-4">Sign-Up</h2>
+            <h2 className="text-center text-2xl font-bold mb-4"> Forgot Password</h2>
 
             <form onSubmit={handleSubmit}>
               {currentSegment === 1 && (
@@ -58,7 +58,7 @@ const SignupForm: React.FC = () => {
                     <IonInput
                       type="text"
                       name="abhaId"
-                      placeholder="Enter ABHA ID"
+                      placeholder="Enter ABHA ID/Phone Number"
                       value={formData.abhaId}
                       onIonChange={handleChange}
                     />
@@ -66,23 +66,6 @@ const SignupForm: React.FC = () => {
                   <IonButton expand="full" className="mt-4" onClick={handleNext}>
                     Next
                   </IonButton>
-
-                  {/* Message for creating an ABHA ID with a link */}
-                  <div className="text-center mt-6">
-                    <IonText color="medium">
-                      <p>
-                        Don't have an ABHA ID?{' '}
-                        <a
-                          href="https://abha.abdm.gov.in/abha/v3/register"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500"
-                        >
-                          Create one
-                        </a>
-                      </p>
-                    </IonText>
-                  </div>
                 </>
               )}
 
@@ -152,4 +135,4 @@ const SignupForm: React.FC = () => {
   );
 };
 
-export default SignupForm;
+export default ForgotPasswordComponent;

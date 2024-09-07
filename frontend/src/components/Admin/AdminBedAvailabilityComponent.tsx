@@ -200,3 +200,4 @@ const AdminBedAvailabilityComponent: React.FC = () => {
 };
 
 export default AdminBedAvailabilityComponent;
+
