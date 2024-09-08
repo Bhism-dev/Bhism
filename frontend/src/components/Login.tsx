@@ -248,20 +248,29 @@ const LoginForm: React.FC = () => {
 
                 {showPassword && (
                   <>
-                    <IonItem>
-                      <IonInput
-                        type="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onIonChange={(e) => setPassword(e.detail.value ?? "")}
-                      >
-                        <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
-                      </IonInput>
-                    </IonItem>
-                    <IonButton expand="full" className="mt-4" type="submit">
-                      Login
-                    </IonButton>
-                  </>
+                  <IonItem className="flex flex-col items-start">
+                    <IonInput
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onIonChange={(e) => setPassword(e.detail.value ?? "")}
+                    >
+                      <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                    </IonInput>
+                  </IonItem>
+                
+                  <div className="flex justify-between items-center w-full mt-2">
+                    <div></div> {/* Placeholder for possible future content or spacing */}
+                    <IonText color="medium" className="cursor-pointer hover:underline text-sm">
+                      <Link to="/forgotpassword">Forgot Password?</Link>
+                    </IonText>
+                  </div>
+                
+                  <IonButton expand="full" className="mt-4" type="submit">
+                    Login
+                  </IonButton>
+                </>
+                
                 )}
 
                 {showOtp && (

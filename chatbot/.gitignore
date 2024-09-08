@@ -1,0 +1,14 @@
+# Ignore .env file
+.env
+
+# Ignore compiled Python files
+*.pyc
+
+# Ignore Scripts folder
+Scripts/
+
+# Ignore Lib folder
+Lib/
+
+# Ignore __pycache__ folder
+__pycache__/
