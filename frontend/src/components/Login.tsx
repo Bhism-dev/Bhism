@@ -15,17 +15,20 @@ import {
 } from "@ionic/react";
 import { PinInput } from "react-input-pin-code";
 import { useMaskito } from "@maskito/react";
+import options from "./mask";
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
 
 const LoginForm: React.FC = () => {
   const [segment, setSegment] = useState<"mobile" | "abha">("mobile");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(false);
-  const [phone, setPhone] = useState("");
+  const [phoneMasked, setPhone] = useState<string>("");
+  let phone = phoneMasked;
+  phone = phone.replace(/[^0-9]/g, "");
+  phone = phone.slice(2);
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [abhaId, setAbhaId] = useState(""); // State for ABHA ID
-  const inputRefs = useRef<(HTMLIonInputElement | null)[]>(Array(6).fill(null));
   const [submit, setSubmit] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
@@ -56,12 +59,13 @@ const LoginForm: React.FC = () => {
   };
 
   const handleLoginWithOtpClick = async () => {
+    console.log(phone);
+    
     if (phone) {
       setPhone(phone);
     } else {
       setAbhaId(abhaId);
     }
-
     try {
       const response = await fetch("http://localhost:3000/otp/phone", {
         method: "POST",
@@ -87,7 +91,12 @@ const LoginForm: React.FC = () => {
     }
   };
 
-  const handleLogin = async (currentIdentifier: string, currentPassword: string) => {
+  const handleLogin = async (
+    currentIdentifier: string,
+    currentPassword: string
+  ) => {
+    console.log(phone);
+    
     try {
       const response = await fetch("http://localhost:3000/auth/signin", {
         method: "POST",
@@ -119,6 +128,8 @@ const LoginForm: React.FC = () => {
   };
 
   const handleOtpSubmit = async () => {
+    console.log(phone);
+    
     try {
       const response = await fetch("http://localhost:3000/otp/verify/phone", {
         method: "POST",
@@ -144,17 +155,7 @@ const LoginForm: React.FC = () => {
     }
   };
 
-  const phoneMask = useMaskito({
-    options: {
-      mask: [
-        ...Array(3).fill(/\d/),
-        " ",
-        ...Array(3).fill(/\d/),
-        " ",
-        ...Array(4).fill(/\d/),
-      ],
-    },
-  });
+  const phoneMask = useMaskito({ options });
 
   return (
     <IonPage>
@@ -187,11 +188,12 @@ const LoginForm: React.FC = () => {
                         }
                       }}
                       type="tel"
-                      placeholder="888 888 8888"
-                      value={phone}
+                      value={phoneMasked}
                       onIonChange={(e) => setPhone(e.detail.value ?? "")}
                       label="Mobile Number"
                       labelPlacement="floating"
+                      inputmode="tel"
+                      maxlength={15}
                     />
                   </IonItem>
                 )}
@@ -267,7 +269,8 @@ const LoginForm: React.FC = () => {
                         allValues: string[]
                       ) => {
                         const newOtp = [...allValues];
-                        newOtp[index] = typeof value === "string" ? value : value[0];
+                        newOtp[index] =
+                          typeof value === "string" ? value : value[0];
                         setOtp(newOtp);
                       }}
                       size="lg"
