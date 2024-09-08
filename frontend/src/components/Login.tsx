@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(false);
   const [phoneMasked, setPhoneMasked] = useState<string>("");
-  const [phone, setCleanNumber] = useState('');
+  const [phone, setCleanNumber] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [abhaId, setAbhaId] = useState(""); // State for ABHA ID
@@ -32,14 +32,13 @@ const LoginForm: React.FC = () => {
 
   const handleInputChange = (value: string) => {
     const formatted = value;
-    const clean = value.replace(/\s+/g, '').replace(/^\+91/, '');
+    const clean = value.replace(/\s+/g, "").replace(/^\+91/, "");
 
     setPhoneMasked(formatted);
     setCleanNumber(clean);
-  }
+  };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
-
     e.preventDefault();
     if (showOtp) {
       handleOtpSubmit();
@@ -66,8 +65,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleLoginWithOtpClick = async () => {
-    console.log(phone);
-    
+
     if (phone) {
       setCleanNumber(phone);
     } else {
@@ -102,8 +100,7 @@ const LoginForm: React.FC = () => {
     currentIdentifier: string,
     currentPassword: string
   ) => {
-    console.log(phone);
-    
+
     try {
       const response = await fetch("http://localhost:3000/auth/signin", {
         method: "POST",
@@ -135,8 +132,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleOtpSubmit = async () => {
-    console.log(phone);
-    
+
     try {
       const response = await fetch("http://localhost:3000/otp/verify/phone", {
         method: "POST",
@@ -196,7 +192,9 @@ const LoginForm: React.FC = () => {
                       }}
                       type="tel"
                       value={phoneMasked}
-                      onIonInput={(e) => handleInputChange(e.detail.value ?? "")}
+                      onIonInput={(e) =>
+                        handleInputChange(e.detail.value ?? "")
+                      }
                       label="Mobile Number"
                       labelPlacement="floating"
                       inputmode="tel"
