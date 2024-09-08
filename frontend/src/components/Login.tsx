@@ -22,17 +22,24 @@ const LoginForm: React.FC = () => {
   const [segment, setSegment] = useState<"mobile" | "abha">("mobile");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(false);
-  const [phoneMasked, setPhone] = useState<string>("");
-  let phone = phoneMasked;
-  phone = phone.replace(/[^0-9]/g, "");
-  phone = phone.slice(2);
+  const [phoneMasked, setPhoneMasked] = useState<string>("");
+  const [phone, setCleanNumber] = useState('');
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [abhaId, setAbhaId] = useState(""); // State for ABHA ID
   const [submit, setSubmit] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
+  const handleInputChange = (value: string) => {
+    const formatted = value;
+    const clean = value.replace(/\s+/g, '').replace(/^\+91/, '');
+
+    setPhoneMasked(formatted);
+    setCleanNumber(clean);
+  }
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
+
     e.preventDefault();
     if (showOtp) {
       handleOtpSubmit();
@@ -62,7 +69,7 @@ const LoginForm: React.FC = () => {
     console.log(phone);
     
     if (phone) {
-      setPhone(phone);
+      setCleanNumber(phone);
     } else {
       setAbhaId(abhaId);
     }
@@ -189,7 +196,7 @@ const LoginForm: React.FC = () => {
                       }}
                       type="tel"
                       value={phoneMasked}
-                      onIonChange={(e) => setPhone(e.detail.value ?? "")}
+                      onIonInput={(e) => handleInputChange(e.detail.value ?? "")}
                       label="Mobile Number"
                       labelPlacement="floating"
                       inputmode="tel"
