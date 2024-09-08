@@ -47,10 +47,11 @@ This repository contains a FastAPI-based backend service that interacts with Goo
 - **FastAPI:** For the web framework.
 - **Uvicorn:** ASGI server to run FastAPI.
 - **Google Generative AI (gemini) API:** For generating responses.
+- **Python-dotenv:** For loading environment variables from a `.env` file.
 
 ### Install Dependencies:
 ```bash
-pip install fastapi pydantic uvicorn google-generativeai
+pip install fastapi pydantic uvicorn google-generativeai python-dotenv
 ```
 
 ### Environment Variables:
@@ -68,15 +69,15 @@ cd bhism-chatbot
 
 Run the FastAPI application using Uvicorn:
 ```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
-Access the API at http://localhost:8000.
+uvicorn main:app --host 0.0.0.0 --port 5000
+Access the API at http://localhost:5000.
 ```
 
 ### Example Request
 To send a query to the chatbot, use the following example:
 ```bash
 curl -X 'POST' \
-  'http://localhost:8000/process-query/' \
+  'http://localhost:5000/process-query/' \
   -H 'Content-Type: application/json' \
   -d '{"query": "How can I register for an OPD appointment?"}'
 ```

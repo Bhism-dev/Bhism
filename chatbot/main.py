@@ -1,11 +1,14 @@
 import os
+from dotenv import load_dotenv  # Import load_dotenv
 import google.generativeai as genai
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Set up the Gemini API key from environment variables
-os.environ["API_KEY"] = "AIzaSyBWbAOjxpQx0UEDxORL0XRScDNyT4d3-sY"
 genai.configure(api_key=os.environ["API_KEY"])
 
 # Initialize FastAPI app
@@ -74,4 +77,4 @@ async def process_query(request: QueryRequest):
 
 # Run the FastAPI app using Uvicorn
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=5000)
