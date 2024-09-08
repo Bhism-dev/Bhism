@@ -51,7 +51,7 @@ This repository contains a FastAPI-based backend service that interacts with Goo
 
 ### Install Dependencies:
 ```bash
-pip install fastapi pydantic uvicorn google-generativeai python-dotenv
+pip install requirements.txt
 ```
 
 ### Environment Variables:
