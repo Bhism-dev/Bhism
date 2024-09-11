@@ -72,6 +72,7 @@ const App: React.FC = () => {
           <Route path="/bloodbank" component={BloodBank} />
           <Route path="/staff" component={StaffAvailability} />
           <Route path="/forgotpassword" component={ForgotPassword} />
+          <Route path="/menu" component={Menu} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
