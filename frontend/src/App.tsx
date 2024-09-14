@@ -50,6 +50,7 @@ import LabManagement from "./pages/LabManagement/LabManagement";
 import BloodBank from "./pages/BloodBank/BloodBank";
 import StaffAvailability from "./pages/StaffAvailability/StaffAvailability";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Vaccination from "./pages/Vaccination/Vaccination";
 
 setupIonicReact();
 
@@ -73,6 +74,7 @@ const App: React.FC = () => {
           <Route path="/staff" component={StaffAvailability} />
           <Route path="/forgotpassword" component={ForgotPassword} />
           <Route path="/menu" component={Menu} />
+          <Route path="/vaccination" component={Vaccination} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

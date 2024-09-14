@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import {
   IonContent,
   IonPage,
@@ -94,6 +95,7 @@ const SignupForm: React.FC = () => {
                       className="rounded-lg"
                     />
                   </IonItem>
+                 
                 </>
               )}
 
@@ -135,6 +137,19 @@ const SignupForm: React.FC = () => {
                     </p>
                   </IonText>
                 </div>
+              )}
+
+              {signupMethod === "mobile" && (
+                <div className="text-center mt-6">
+                <IonText color="medium">
+                  <p>
+                    Already have an Account?{" "}
+                    <Link to="/login" className="text-blue-500">
+                      Log In
+                    </Link>
+                  </p>
+                </IonText>
+                </div>   
               )}
             </form>
           </div>
