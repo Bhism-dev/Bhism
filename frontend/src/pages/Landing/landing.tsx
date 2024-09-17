@@ -10,7 +10,7 @@ const Landing: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding">
-        <div>
+        {/* <div>
         <Swiper
           modules={[Autoplay]}
           autoplay={{ delay: 2000, disableOnInteraction: false }} // Autoplay every 3s
@@ -37,9 +37,18 @@ const Landing: React.FC = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        </div>
+        </div> */}
         <IonButton routerLink="/login" expand="block">Login</IonButton>
         <IonButton routerLink="/signup" expand="block">Signup</IonButton>
+        <IonButton routerLink='/bedavailability' expand="block">Bed Availability</IonButton>
+        <IonButton routerLink='/labmanagement' expand="block">Lab Management</IonButton>
+        <IonButton routerLink='/inventory' expand="block">Inventory Management</IonButton>
+        <IonButton routerLink='/dashboard' expand="block">User Dashboard</IonButton>
+        <IonButton routerLink='/admin/inventory' expand="block">Admin Inventory Management</IonButton>
+        <IonButton routerLink='/bloodbank' expand="block">Blood Bank</IonButton>
+        <IonButton routerLink='/staffavailability' expand="block">Staff Availability</IonButton>
+        <IonButton routerLink='/forgotpassword' expand="block">Forgot Password</IonButton>
+        <IonButton routerLink='/vaccination' expand="block">Vaccination</IonButton>
       </IonContent>
     </IonPage>
   );
