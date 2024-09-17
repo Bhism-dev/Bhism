@@ -1,28 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-    IonFab,
-    IonFabButton,
-    IonIcon,
-    IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    IonButtons,
-    IonButton,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonAvatar,
-    IonInput,
-    IonFooter,
-    IonSkeletonText,
+import { IonFab, IonFabButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonList, IonItem, IonLabel, IonAvatar, IonInput, IonFooter, IonSkeletonText,
 } from "@ionic/react";
-import {
-    chatbubbleEllipses,
-    close,
-    send,
-    person,
-    logoAndroid,
+import { chatbubbleEllipses, close, send, person, logoAndroid,
 } from "ionicons/icons";
 import "../theme/tailwind.css";
 
@@ -81,7 +60,7 @@ const ChatbotComponent: React.FC = () => {
 
     return (
         <>
-            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+            <IonFab vertical="bottom" horizontal="end">
             {!isOpen && (
                 <IonFabButton onClick={() => setIsOpen(true)}>
                   <IonIcon icon={chatbubbleEllipses} />

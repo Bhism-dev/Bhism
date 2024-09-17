@@ -54,6 +54,7 @@ import Vaccination from "./pages/Vaccination/Vaccination";
 import Landing from "./pages/Landing/landing";
 import NotificationPage from "./pages/Notifications/NotificationPage";
 import AdminStaffAvailability from "./pages/StaffAvailability/AdminStaffAvailability";
+import ChatbotComponent from "./components/chatbot";
 
 setupIonicReact();
 
@@ -63,7 +64,7 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonRouterOutlet id="main">
           <Route exact path="/login" component={LoginForm} />
-          <Route exact path="/signup" component={Signup} /> 
+          <Route exact path="/signup" component={Signup} />
           <Route exact path="/landing" component={Landing} />
           <Route path="/" exact={true}>
             <Redirect to="/landing" />
@@ -81,6 +82,7 @@ const App: React.FC = () => {
           <Route path="/vaccination" component={Vaccination} />
           <Route path="/notifications" component={NotificationPage} />
           <Route path="/admin/staff" component={AdminStaffAvailability} />
+          <Route path="/chatbot" component={ChatbotComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
