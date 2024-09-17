@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   IonContent,
   IonPage,
@@ -10,26 +10,34 @@ import {
   IonSegment,
   IonSegmentButton,
   IonLabel
-} from "@ionic/react";
-import { useMaskito } from "@maskito/react";
-import options from "./mask"; // Import the mask options from your existing logic
-import '../theme/tailwind.css'; // Import the Tailwind CSS file
+} from '@ionic/react';
+import { useMaskito } from '@maskito/react';
+import options from './mask';
+import '../theme/tailwind.css';
 
 const SignupForm: React.FC = () => {
-  const [signupMethod, setSignupMethod] = useState<"mobile" | "abha">("mobile"); // State to track signup method
+  const [signupMethod, setSignupMethod] = useState<'mobile' | 'abha'>('mobile');
   const [formData, setFormData] = useState({
-    abhaId: "",
-    mobileMasked: "", // For displaying the masked mobile input
-    mobile: "", // For storing the clean mobile number
-    otp: "",
-    password: "",
-    confirmPassword: ""
+    abhaId: '',
+    mobileMasked: '',
+    mobile: '',
+    otp: '',
+    password: '',
+    confirmPassword: ''
   });
-  const [otpSent, setOtpSent] = useState(false); // Track if OTP was sent
-  const phoneMask = useMaskito({ options }); // Hook to apply phone masking
+  const [formStep, setFormStep] = useState(1); // Track the current step (1: Mobile/ABHA, 2: OTP, 3: Password)
+  const [otpSent, setOtpSent] = useState(false);
+  const phoneMask = useMaskito({ options });
+  const mobileInputRef = useRef<HTMLIonInputElement | null>(null);
+
+  useEffect(() => {
+    if (mobileInputRef.current) {
+      phoneMask(mobileInputRef.current);
+    }
+  }, [mobileInputRef, phoneMask]);
 
   const handleSignupMethodChange = (e: CustomEvent) => {
-    setSignupMethod(e.detail.value as "mobile" | "abha");
+    setSignupMethod(e.detail.value as 'mobile' | 'abha');
   };
 
   const handleChange = (e: any) => {
@@ -37,18 +45,58 @@ const SignupForm: React.FC = () => {
   };
 
   const handleMaskedInputChange = (value: string) => {
-    const formatted = value; // Use the masked value
-    const clean = value.replace(/\s+/g, "").replace(/^\+91/, ""); // Clean value for submission
-    setFormData({ ...formData, mobileMasked: formatted, mobile: clean });
+    const clean = value.replace(/\s+/g, '').replace(/^\+91/, '');
+    setFormData({ ...formData, mobileMasked: value, mobile: clean });
   };
 
   const handleNext = () => {
-    console.log('Next clicked');
+    if (formStep === 1) {
+      // Validation for mobile or ABHA input
+      if (signupMethod === 'mobile' && !formData.mobile) {
+        alert('Please enter your mobile number.');
+        return;
+      }
+
+      if (signupMethod === 'abha' && !formData.abhaId) {
+        alert('Please enter your ABHA ID.');
+        return;
+      }
+
+      // Simulate OTP sending
+      setOtpSent(true);
+      setFormStep(2); // Move to OTP step
+      alert('OTP has been sent.');
+    } else if (formStep === 2) {
+      // OTP verification step
+      if (!formData.otp) {
+        alert('Please enter the OTP.');
+        return;
+      }
+
+      // Simulate OTP verification success
+      setFormStep(3); // Move to password setup step
+    }
   };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(formData);
+
+    if (formStep === 3) {
+      // Password setup step
+      if (!formData.password || !formData.confirmPassword) {
+        alert('Please enter and confirm your password.');
+        return;
+      }
+
+      if (formData.password !== formData.confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+      }
+
+      // Submit final form
+      console.log('Form submitted:', formData);
+      alert('Signup successful!');
+    }
   };
 
   return (
@@ -64,6 +112,7 @@ const SignupForm: React.FC = () => {
               onIonChange={handleSignupMethodChange}
               color="primary"
               className="mb-4"
+              disabled={formStep !== 1} // Disable segment after the first step
             >
               <IonSegmentButton value="mobile">
                 <IonLabel>Signup via Mobile</IonLabel>
@@ -74,42 +123,82 @@ const SignupForm: React.FC = () => {
             </IonSegment>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} style={{height: '10rem'}}>
-              {signupMethod === "mobile" && (
+            <form onSubmit={handleSubmit}>
+              {/* Step 1: Enter Mobile or ABHA */}
+              {formStep === 1 && (
                 <>
-                  {/* Mobile number input */}
-                  <IonItem className="rounded-lg bg-gray-100 mb-4">
-                    <IonInput
-                      ref={async (inputRef) => {
-                        if (inputRef) {
-                          const input = await inputRef.getInputElement();
-                          phoneMask(input); // Apply the mask for mobile number input
-                        }
-                      }}
-                      type="tel"
-                      value={formData.mobileMasked}
-                      onIonInput={(e) => handleMaskedInputChange(e.detail.value ?? "")}
-                      placeholder="Enter Mobile Number"
-                      label="Mobile Number"
-                      labelPlacement="floating"
-                      className="rounded-lg"
-                    />
-                  </IonItem>
-                 
+                  {signupMethod === 'mobile' && (
+                    <IonItem className="rounded-lg bg-gray-100 mb-4">
+                      <IonInput
+                        ref={mobileInputRef}
+                        type="tel"
+                        value={formData.mobileMasked}
+                        onIonInput={(e) => handleMaskedInputChange(e.detail.value ?? '')}
+                        placeholder="Enter Mobile Number"
+                        label="Mobile Number"
+                        labelPlacement="floating"
+                        className="rounded-lg"
+                      />
+                    </IonItem>
+                  )}
+
+                  {signupMethod === 'abha' && (
+                    <IonItem className="rounded-lg bg-gray-100 mb-4">
+                      <IonInput
+                        type="text"
+                        name="abhaId"
+                        placeholder="Enter ABHA ID"
+                        value={formData.abhaId}
+                        onIonChange={handleChange}
+                        label="ABHA ID"
+                        labelPlacement="floating"
+                        className="rounded-lg"
+                      />
+                    </IonItem>
+                  )}
                 </>
               )}
 
-              {signupMethod === "abha" && (
+              {/* Step 2: Enter OTP */}
+              {formStep === 2 && (
+                <IonItem className="rounded-lg bg-gray-100 mb-4">
+                  <IonInput
+                    type="text"
+                    name="otp"
+                    placeholder="Enter OTP"
+                    value={formData.otp}
+                    onIonChange={handleChange}
+                    label="OTP"
+                    labelPlacement="floating"
+                    className="rounded-lg"
+                  />
+                </IonItem>
+              )}
+
+              {/* Step 3: Set Password */}
+              {formStep === 3 && (
                 <>
-                  {/* ABHA ID input */}
                   <IonItem className="rounded-lg bg-gray-100 mb-4">
                     <IonInput
-                      type="text"
-                      name="abhaId"
-                      placeholder="Enter ABHA ID"
-                      value={formData.abhaId}
+                      type="password"
+                      name="password"
+                      placeholder="Enter Password"
+                      value={formData.password}
                       onIonChange={handleChange}
-                      label="ABHA ID"
+                      label="Password"
+                      labelPlacement="floating"
+                      className="rounded-lg"
+                    />
+                  </IonItem>
+
+                  <IonItem className="rounded-lg bg-gray-100 mb-4">
+                    <IonInput
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm Password"
+                      value={formData.confirmPassword}
+                      onIonChange={handleChange}
+                      label="Confirm Password"
                       labelPlacement="floating"
                       className="rounded-lg"
                     />
@@ -117,11 +206,27 @@ const SignupForm: React.FC = () => {
                 </>
               )}
 
+              {/* Next or Submit Button */}
               <IonButton expand="full" className="mt-4 rounded-lg" onClick={handleNext}>
-                Next
+                {formStep === 3 ? 'Submit' : 'Next'}
               </IonButton>
 
-              {signupMethod === "abha" && (
+              {/* Existing Account Link */}
+              {formStep === 1 && signupMethod === 'mobile' && (
+                <div className="text-center mt-6">
+                  <IonText color="medium">
+                    <p>
+                      Already have an Account?{' '}
+                      <Link to="/login" className="text-blue-500">
+                        Log In
+                      </Link>
+                    </p>
+                  </IonText>
+                </div>
+              )}
+
+              {/* ABHA Creation Link */}
+              {formStep === 1 && signupMethod === 'abha' && (
                 <div className="text-center mt-6">
                   <IonText color="medium">
                     <p>
@@ -137,19 +242,6 @@ const SignupForm: React.FC = () => {
                     </p>
                   </IonText>
                 </div>
-              )}
-
-              {signupMethod === "mobile" && (
-                <div className="text-center mt-6">
-                <IonText color="medium">
-                  <p>
-                    Already have an Account?{" "}
-                    <Link to="/login" className="text-blue-500">
-                      Log In
-                    </Link>
-                  </p>
-                </IonText>
-                </div>   
               )}
             </form>
           </div>
