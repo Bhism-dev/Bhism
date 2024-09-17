@@ -38,6 +38,7 @@ client.on('message_create', async (message: {
             });
 
             message.reply(response.data.response);
+            console.log('Response:', response.data.response);
         } catch (error) {
             console.error('Error processing query:', error);
             message.reply('Sorry, I could not process your request.');
