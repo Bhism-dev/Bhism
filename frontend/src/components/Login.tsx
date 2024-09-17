@@ -34,7 +34,7 @@ const LoginForm: React.FC = () => {
   const handleInputChange = (value: string) => {
     const formatted = value;
     const clean = value.replace(/\s+/g, "").replace(/^\+91/, "");
-
+    console.log(clean);
     setPhoneMasked(formatted);
     setCleanNumber(clean);
   };
@@ -76,7 +76,7 @@ const LoginForm: React.FC = () => {
       const response = await fetch("http://localhost:3000/otp/phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phone || abhaId }),
+        body: JSON.stringify({ phone }),
       });
 
       if (response.ok) {
@@ -109,7 +109,7 @@ const LoginForm: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          identifier: currentIdentifier,
+          phone: currentIdentifier,
           password: currentPassword,
         }),
       });
@@ -165,7 +165,7 @@ const LoginForm: React.FC = () => {
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
         <div className="form-wrapper flex justify-center items-center h-full fixed inset-0" style={{ backgroundImage: `url(${loginbg})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', position: 'fixed' }}>
-          <div className="w-[28rem] w-11/12 max-w-lg shadow-lg p-6 bg-white rounded-lg">
+          <div className="w-11/12 max-w-lg shadow-lg p-6 bg-white rounded-lg">
             <h2 className="text-center text-2xl font-bold mb-4">Login</h2>
             <IonSegment
               value={segment}
