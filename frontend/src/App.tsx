@@ -52,7 +52,7 @@ import StaffAvailability from "./pages/StaffAvailability/StaffAvailability";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Vaccination from "./pages/Vaccination/Vaccination";
 import Landing from "./pages/Landing/landing";
-
+import NotificationPage from "./pages/Notifications/NotificationPage";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -77,6 +77,7 @@ const App: React.FC = () => {
           <Route path="/forgotpassword" component={ForgotPassword} />
           <Route path="/menu" component={Menu} />
           <Route path="/vaccination" component={Vaccination} />
+          <Route path="/notifications" component={NotificationPage} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
