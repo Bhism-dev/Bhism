@@ -19,7 +19,7 @@ import {
 import { chatbubbleEllipses, close, send, person, logoAndroid } from 'ionicons/icons';
 
 interface Message {
-  role: 'user' | 'bot';
+  role: 'user' | 'bot' | string;
   content: string;
 }
 
@@ -31,17 +31,17 @@ const ChatbotComponent: React.FC = () => {
   const handleSend = async () => {
     if (input.trim() === '') return;
 
-    const newMessages = [...messages, { role: 'user' as 'user' | 'bot', content: input }];
+    const newMessages = [...messages, { role: 'user', content: input }];
     setMessages(newMessages);
     setInput('');
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('http://localhost:5000/process-query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ query: input }),
       });
 
       if (!response.ok) {
@@ -49,7 +49,11 @@ const ChatbotComponent: React.FC = () => {
       }
 
       const data = await response.json();
-      setMessages([...newMessages, { role: 'bot', content: data.message }]);
+      console.log('Data:', data);
+      // Assuming the response is an array and you need the first element's "response"
+      const botResponse = data.response || 'Sorry, I encountered an error.';
+      
+      setMessages([...newMessages, { role: 'bot', content: botResponse }]);
     } catch (error) {
       console.error('Error:', error);
       setMessages([...newMessages, { role: 'bot', content: 'Sorry, I encountered an error.' }]);
@@ -82,7 +86,7 @@ const ChatbotComponent: React.FC = () => {
         }}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Chatbot</IonTitle>
+              <IonTitle>Sahaayak</IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setIsOpen(false)}>
                   <IonIcon icon={close} />
@@ -91,7 +95,7 @@ const ChatbotComponent: React.FC = () => {
             </IonToolbar>
           </IonHeader>
 
-          <IonContent >
+          <IonContent>
             <IonList>
               {messages.map((message, index) => (
                 <IonItem key={index} lines="none" className={message.role === 'user' ? 'ion-text-end' : ''}>
@@ -122,9 +126,10 @@ const ChatbotComponent: React.FC = () => {
             </IonList>
           </IonContent>
 
-          <IonFooter >
+          <IonFooter>
             <IonToolbar>
-              <IonInput className='ion-padding'
+              <IonInput
+                className='ion-padding'
                 value={input}
                 placeholder="Type your message..."
                 onIonChange={e => setInput(e.detail.value!)}

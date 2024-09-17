@@ -53,6 +53,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Vaccination from "./pages/Vaccination/Vaccination";
 import Landing from "./pages/Landing/landing";
 import NotificationPage from "./pages/Notifications/NotificationPage";
+import ChatbotComponent from "./components/chatbot";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -78,6 +79,7 @@ const App: React.FC = () => {
           <Route path="/menu" component={Menu} />
           <Route path="/vaccination" component={Vaccination} />
           <Route path="/notifications" component={NotificationPage} />
+          <Route path="/chatbot" component={ChatbotComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
