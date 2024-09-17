@@ -17,6 +17,7 @@ import { PinInput } from "react-input-pin-code";
 import { useMaskito } from "@maskito/react";
 import options from "./mask";
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
+import ChatbotComponent from "./chatbot";
 
 const LoginForm: React.FC = () => {
   const [segment, setSegment] = useState<"mobile" | "abha">("mobile");
@@ -313,6 +314,7 @@ const LoginForm: React.FC = () => {
             buttons={["OK"]}
           />
         )}
+        <ChatbotComponent />
       </IonContent>
     </IonPage>
   );

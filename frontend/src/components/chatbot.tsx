@@ -15,6 +15,7 @@ import {
   IonAvatar,
   IonInput,
   IonFooter,
+  IonSkeletonText,
 } from '@ionic/react';
 import { chatbubbleEllipses, close, send, person, logoAndroid } from 'ionicons/icons';
 
@@ -27,6 +28,7 @@ const ChatbotComponent: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);  // Loading state for skeleton
 
   const handleSend = async () => {
     if (input.trim() === '') return;
@@ -34,6 +36,7 @@ const ChatbotComponent: React.FC = () => {
     const newMessages = [...messages, { role: 'user', content: input }];
     setMessages(newMessages);
     setInput('');
+    setLoading(true);  // Show skeleton when fetching starts
 
     try {
       const response = await fetch('http://localhost:5000/process-query', {
@@ -50,19 +53,20 @@ const ChatbotComponent: React.FC = () => {
 
       const data = await response.json();
       console.log('Data:', data);
-      // Assuming the response is an array and you need the first element's "response"
       const botResponse = data.response || 'Sorry, I encountered an error.';
       
       setMessages([...newMessages, { role: 'bot', content: botResponse }]);
     } catch (error) {
       console.error('Error:', error);
       setMessages([...newMessages, { role: 'bot', content: 'Sorry, I encountered an error.' }]);
+    } finally {
+      setLoading(false);  // Hide skeleton when fetching ends
     }
   };
 
   return (
     <>
-      <IonFab vertical="bottom" horizontal="end">
+      <IonFab vertical="bottom" horizontal="end" slot='fixed'>
         {!isOpen && (
           <IonFabButton onClick={() => setIsOpen(true)}>
             <IonIcon icon={chatbubbleEllipses} />
@@ -86,7 +90,7 @@ const ChatbotComponent: React.FC = () => {
         }}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Sahaayak</IonTitle>
+              <IonTitle>SAHAAYAK</IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setIsOpen(false)}>
                   <IonIcon icon={close} />
@@ -123,6 +127,19 @@ const ChatbotComponent: React.FC = () => {
                   )}
                 </IonItem>
               ))}
+
+              {/* Show Skeleton while loading */}
+              {loading && (
+                <IonItem lines="none">
+                  <IonAvatar slot="start">
+                    <IonSkeletonText animated style={{ width: '40px', height: '40px' }} />
+                  </IonAvatar>
+                  <IonLabel>
+                    <IonSkeletonText animated style={{ width: '80%' }} />
+                    <IonSkeletonText animated style={{ width: '60%' }} />
+                  </IonLabel>
+                </IonItem>
+              )}
             </IonList>
           </IonContent>
 
@@ -149,3 +166,4 @@ const ChatbotComponent: React.FC = () => {
 };
 
 export default ChatbotComponent;
+    
