@@ -1,244 +1,232 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   IonContent,
   IonPage,
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
   IonInput,
   IonButton,
   IonItem,
   IonText,
-  IonSegment,
-  IonSegmentButton,
-  IonLabel
-} from '@ionic/react';
-import { useMaskito } from '@maskito/react';
-import options from './mask';
-import '../theme/tailwind.css';
+  IonAlert,
+  IonInputPasswordToggle,
+} from "@ionic/react";
+import { PinInput } from "react-input-pin-code";
+import { useMaskito } from "@maskito/react";
+import options from "./mask";
+import "../theme/tailwind.css"; // Import the Tailwind CSS file
 
 const SignupForm: React.FC = () => {
-  const [signupMethod, setSignupMethod] = useState<'mobile' | 'abha'>('mobile');
-  const [formData, setFormData] = useState({
-    abhaId: '',
-    mobileMasked: '',
-    mobile: '',
-    otp: '',
-    password: '',
-    confirmPassword: ''
-  });
-  const [formStep, setFormStep] = useState(1); // Track the current step (1: Mobile/ABHA, 2: OTP, 3: Password)
-  const [otpSent, setOtpSent] = useState(false);
-  const [resendOtpCount, setResendOtpCount] = useState(0); // Track resend OTP count
-  const phoneMask = useMaskito({ options });
-  const mobileInputRef = useRef<HTMLIonInputElement | null>(null);
+  const [segment, setSegment] = useState<"mobile" | "abha">("mobile");
+  const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [phoneMasked, setPhoneMasked] = useState<string>("");
+  const [phone, setCleanNumber] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [abhaId, setAbhaId] = useState(""); // State for ABHA ID
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [submit, setSubmit] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (mobileInputRef.current) {
-      phoneMask(mobileInputRef.current);
-    }
-  }, [mobileInputRef, phoneMask]);
-
-  const handleSignupMethodChange = (e: CustomEvent) => {
-    setSignupMethod(e.detail.value as 'mobile' | 'abha');
-  };
-
-  const handleChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleMaskedInputChange = (value: string) => {
-    const clean = value.replace(/\s+/g, '').replace(/^\+91/, '');
-    setFormData({ ...formData, mobileMasked: value, mobile: clean });
-  };
-
-  const handleNext = () => {
-    if (formStep === 1) {
-      // Validation for mobile or ABHA input
-      if (signupMethod === 'mobile' && !formData.mobile) {
-        return;
-      }
-
-      if (signupMethod === 'abha' && !formData.abhaId) {
-        return;
-      }
-
-      // Simulate OTP sending
-      setOtpSent(true);
-      setFormStep(2); // Move to OTP step
-    } else if (formStep === 2) {
-      // OTP verification step
-      if (!formData.otp) {
-        return;
-      }
-
-      // Simulate OTP verification success
-      setFormStep(3); // Move to password setup step
-    }
+  const handleInputChange = (value: string) => {
+    const formatted = value;
+    const clean = value.replace(/\s+/g, "").replace(/^\+91/, "");
+    setPhoneMasked(formatted);
+    console.log("phone: ",phoneMasked);
+    setCleanNumber(clean);
   };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    if (formStep === 3) {
-      // Password setup step
-      if (!formData.password || !formData.confirmPassword) {
-        return;
+    if (showOtp && password && confirmPassword) {
+      if (password === confirmPassword) {
+        handleSignup(phone || abhaId, password);
+      } else {
+        setAlertMessage("Passwords do not match");
       }
-
-      if (formData.password !== formData.confirmPassword) {
-        alert('Passwords do not match.');
-        return;
-      }
-
-      // Submit final form
-      console.log('Form submitted:', formData);
-      alert('Signup successful!');
+    } else if (!showOtp) {
+      setSubmit(true);
     }
   };
 
-  const resendOtp = () => {
-    // Simulate OTP resend
-    if (resendOtpCount < 3) { // Limit resends to 3 times
-      setResendOtpCount(resendOtpCount + 1);
-      alert('OTP resent!');
-    } else {
-      alert('You have reached the maximum resend limit.');
+  useEffect(() => {
+    if (submit && (phone || abhaId)) {
+      handleSendOtp(phone || abhaId);
+      setSubmit(false);
+    }
+  }, [submit, phone, abhaId]);
+
+  const handleSegmentChange = (e: CustomEvent) => {
+    setSegment(e.detail.value as "mobile" | "abha");
+    setShowOtp(false);
+  };
+
+  const handleSendOtp = async (identifier: string) => {
+    
+    try {
+      const response = await fetch("http://localhost:3000/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier }),
+      });
+
+      if (response.ok) {
+        setAlertMessage(
+          `OTP sent successfully to your mobile number XXXXXXX${phone.slice(
+            -3
+          )}`
+        );
+        setShowOtp(true);
+      } else {
+        setShowOtp(false);
+        setAlertMessage(
+          `Failed to send OTP to your mobile number XXXXXXX${phone.slice(-3)}`
+        );
+      }
+    } catch (error) {
+      setAlertMessage("An error occurred while sending OTP");
     }
   };
+
+  const handleOtpSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/otp/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifier: phone || abhaId,
+          otp: otp.join(""),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.message === "OTP verified successfully") {
+        setAlertMessage("OTP verification successful. Please set your password.");
+      } else {
+        setAlertMessage("Invalid OTP. Please try again.");
+      }
+    } catch (error) {
+      setAlertMessage("An error occurred while verifying OTP");
+    }
+  };
+
+  const handleSignup = async (
+    identifier: string,
+    newPassword: string
+  ) => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifier,
+          password: newPassword,
+        }),
+      });
+
+      if (response.ok) {
+        setAlertMessage("Signup successful");
+      } else {
+        setAlertMessage("Signup failed. Please try again.");
+      }
+    } catch (error) {
+      setAlertMessage("An error occurred during signup");
+    }
+  };
+
+  const phoneMask = useMaskito({ options });
 
   return (
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
         <div className="form-wrapper flex justify-center items-center h-full fixed inset-0">
-          <div className="w-full max-w-lg p-6 bg-white shadow-lg rounded-lg flex flex-col space-y-4">
-            <h2 className="text-center text-2xl font-bold mb-4">Sign-Up</h2>
-
-            {/* Segment to switch between mobile and ABHA signup */}
+          <div className="w-[28rem] max-w-full shadow-lg p-6 bg-white rounded-lg">
+            <h2 className="text-center text-2xl font-bold mb-4">Sign Up</h2>
             <IonSegment
-              value={signupMethod}
-              onIonChange={handleSignupMethodChange}
+              value={segment}
+              onIonChange={handleSegmentChange}
               color="primary"
-              className="mb-4"
-              disabled={formStep !== 1} // Disable segment after the first step
             >
               <IonSegmentButton value="mobile">
-                <IonLabel>Signup via Mobile</IonLabel>
+                <IonLabel>Sign Up via Mobile</IonLabel>
               </IonSegmentButton>
               <IonSegmentButton value="abha">
-                <IonLabel>Signup via ABHA</IonLabel>
+                <IonLabel>Sign Up by ABHA</IonLabel>
               </IonSegmentButton>
             </IonSegment>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit}>
-              {/* Step 1: Enter Mobile or ABHA */}
-              {formStep === 1 && (
-                <>
-                  {signupMethod === 'mobile' && (
-                    <IonItem className="rounded-lg bg-gray-100 mb-4">
-                      <IonInput
-                        ref={mobileInputRef}
-                        type="tel"
-                        value={formData.mobileMasked}
-                        onIonInput={(e) => handleMaskedInputChange(e.detail.value ?? '')}
-                        placeholder="Enter Mobile Number"
-                        label="Mobile Number"
-                        labelPlacement="floating"
-                        className="rounded-lg"
-                      />
-                    </IonItem>
-                  )}
-
-                  {signupMethod === 'abha' && (
-                    <IonItem className="rounded-lg bg-gray-100 mb-4">
-                      <IonInput
-                        type="text"
-                        name="abhaId"
-                        placeholder="Enter ABHA ID"
-                        value={formData.abhaId}
-                        onIonChange={handleChange}
-                        label="ABHA ID"
-                        labelPlacement="floating"
-                        className="rounded-lg"
-                      />
-                    </IonItem>
-                  )}
-                </>
-              )}
-
-              {/* Step 2: Enter OTP */}
-              {formStep === 2 && (
-                <>
-                  <IonItem className="rounded-lg bg-gray-100 mb-4">
+            <div className="mt-4">
+              <form onSubmit={handleSubmit}>
+                {segment === "mobile" && (
+                  <>
+                  <IonItem>
                     <IonInput
-                      type="text"
-                      name="otp"
-                      placeholder="Enter OTP"
-                      value={formData.otp}
-                      onIonChange={handleChange}
-                      label="OTP"
+                      ref={async (phoneRef) => {
+                        if (phoneRef) {
+                          const input = await phoneRef.getInputElement();
+                          phoneMask(input);
+                        }
+                      }}
+                      type="tel"
+                      value={phoneMasked}
+                      onIonInput={(e) =>
+                        handleInputChange(e.detail.value ?? "")
+                      }
+                      label="Mobile Number"
                       labelPlacement="floating"
-                      className="rounded-lg"
+                      inputmode="tel"
+                      maxlength={15}
                     />
                   </IonItem>
-
-                </>
-              )}
-
-              {/* Step 3: Set Password */}
-              {formStep === 3 && (
-                <>
-                  <IonItem className="rounded-lg bg-gray-100 mb-4">
-                    <IonInput
-                      type="password"
-                      name="password"
-                      placeholder="Enter Password"
-                      value={formData.password}
-                      onIonChange={handleChange}
-                      label="Password"
-                      labelPlacement="floating"
-                      className="rounded-lg"
-                    />
-                  </IonItem>
-
-                  <IonItem className="rounded-lg bg-gray-100 mb-4">
-                    <IonInput
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      value={formData.confirmPassword}
-                      onIonChange={handleChange}
-                      label="Confirm Password"
-                      labelPlacement="floating"
-                      className="rounded-lg"
-                    />
-                  </IonItem>
-                </>
-              )}
-
-              {/* Next or Submit Button */}
-              <IonButton expand="full" className="mt-4 rounded-lg" onClick={handleNext}>
-                {formStep === 3 ? 'Submit' : 'Next'}
-              </IonButton>
-
-              {/* Existing Account Link */}
-              {formStep === 1 && signupMethod === 'mobile' && (
-                <div className="text-center mt-6">
+                  <IonButton
+                      expand="full"
+                      className="mt-4"
+                      onClick={handleSubmit}
+                    >
+                      Send OTP
+                    </IonButton>
+                  <div className="text-center mt-6">
                   <IonText color="medium">
                     <p>
-                      Already have an Account?{' '}
+                      Already have an Account?{" "}
                       <Link to="/login" className="text-blue-500">
-                        Log In
+                        Login
                       </Link>
                     </p>
                   </IonText>
                 </div>
-              )}
+                </>
+                  
+                )}
 
-              {/* ABHA Creation Link */}
-              {formStep === 1 && signupMethod === 'abha' && (
-                <div className="text-center mt-6">
+                {segment === "abha" && (
+                  <>
+                  <IonItem>
+                    <IonInput
+                      type="text"
+                      placeholder="Enter your ABHA ID"
+                      value={abhaId}
+                      onIonChange={(e) => setAbhaId(e.detail.value ?? "")}
+                      label="ABHA ID"
+                      labelPlacement="floating"
+                    />
+                  </IonItem>
+                  <>
+                    <IonButton
+                      expand="full"
+                      className="mt-4"
+                      onClick={handleSubmit}
+                    >
+                      Send OTP
+                    </IonButton>
+                    
+                  </>
+                  <div className="text-center mt-6">
                   <IonText color="medium">
-                    <p>
+                  <p>
                       Don't have an ABHA ID?{' '}
                       <a
                         href="https://abha.abdm.gov.in/abha/v3/register"
@@ -249,31 +237,83 @@ const SignupForm: React.FC = () => {
                         Create one
                       </a>
                     </p>
+
                   </IonText>
                 </div>
-              )}
-              {formStep === 2 && (
-                <>
-                  {/* Resend OTP Link */}
-                  <div className="text-center mt-4">
-                    <IonText color="medium">
-                      <p>
-                        Didn't receive OTP?{' '}
-                        <span
-                          className="text-blue-500 cursor-pointer"
-                          onClick={resendOtp}
-                        >
-                          Resend OTP
-                        </span>
-                      </p>
-                    </IonText>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
 
-            </form>
+                {showOtp && (
+                  <>
+                    <PinInput
+                      values={otp}
+                      onChange={(
+                        value: string | string[],
+                        index: number,
+                        allValues: string[]
+                      ) => {
+                        const newOtp = [...allValues];
+                        newOtp[index] =
+                          typeof value === "string" ? value : value[0];
+                        setOtp(newOtp);
+                      }}
+                      size="lg"
+                      containerClassName="justify-center my-4"
+                      inputClassName="mx-2"
+                      placeholder=""
+                      validBorderColor="rgb(13,110,253)"
+                    />
+                    <IonButton expand="full" className="mt-4" onClick={handleOtpSubmit}>
+                      Verify OTP
+                    </IonButton>
+                  </>
+                )}
+
+                {showOtp && (
+                  <>
+                    <IonItem>
+                      <IonInput
+                        type="password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onIonChange={(e) => setPassword(e.detail.value ?? "")}
+                      >
+                        <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                      </IonInput>
+                    </IonItem>
+                    <IonItem>
+                      <IonInput
+                        type="password"
+                        placeholder="Confirm your password"
+                        value={confirmPassword}
+                        onIonChange={(e) => setConfirmPassword(e.detail.value ?? "")}
+                      >
+                        <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                      </IonInput>
+                    </IonItem>
+                    <IonButton expand="full" className="mt-4" type="submit">
+                      Sign Up
+                    </IonButton>
+                  </>
+                )}
+                
+
+                
+              </form>
+            </div>
           </div>
         </div>
+
+        {/* Alert Popup */}
+        {alertMessage && (
+          <IonAlert
+            isOpen={!!alertMessage}
+            onDidDismiss={() => setAlertMessage(null)}
+            header="Alert"
+            message={alertMessage}
+            buttons={["OK"]}
+          />
+        )}
       </IonContent>
     </IonPage>
   );
