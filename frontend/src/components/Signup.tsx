@@ -53,23 +53,19 @@ const SignupForm: React.FC = () => {
     if (formStep === 1) {
       // Validation for mobile or ABHA input
       if (signupMethod === 'mobile' && !formData.mobile) {
-        alert('Please enter your mobile number.');
         return;
       }
 
       if (signupMethod === 'abha' && !formData.abhaId) {
-        alert('Please enter your ABHA ID.');
         return;
       }
 
       // Simulate OTP sending
       setOtpSent(true);
       setFormStep(2); // Move to OTP step
-      alert('OTP has been sent.');
     } else if (formStep === 2) {
       // OTP verification step
       if (!formData.otp) {
-        alert('Please enter the OTP.');
         return;
       }
 
@@ -84,7 +80,6 @@ const SignupForm: React.FC = () => {
     if (formStep === 3) {
       // Password setup step
       if (!formData.password || !formData.confirmPassword) {
-        alert('Please enter and confirm your password.');
         return;
       }
 
