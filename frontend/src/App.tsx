@@ -54,6 +54,7 @@ import Vaccination from "./pages/Vaccination/Vaccination";
 import Landing from "./pages/Landing/landing";
 import NotificationPage from "./pages/Notifications/NotificationPage";
 import AdminStaffAvailability from "./pages/StaffAvailability/AdminStaffAvailability";
+import OPDBooking from "./pages/OPDBooking/OPDBooking";
 import ChatbotComponent from "./components/chatbot";
 
 setupIonicReact();
@@ -82,6 +83,7 @@ const App: React.FC = () => {
           <Route path="/vaccination" component={Vaccination} />
           <Route path="/notifications" component={NotificationPage} />
           <Route path="/admin/staff" component={AdminStaffAvailability} />
+          <Route path="/book-opd" component={OPDBooking} />
           <Route path="/chatbot" component={ChatbotComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
