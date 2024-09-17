@@ -27,6 +27,7 @@ const SignupForm: React.FC = () => {
   });
   const [formStep, setFormStep] = useState(1); // Track the current step (1: Mobile/ABHA, 2: OTP, 3: Password)
   const [otpSent, setOtpSent] = useState(false);
+  const [resendOtpCount, setResendOtpCount] = useState(0); // Track resend OTP count
   const phoneMask = useMaskito({ options });
   const mobileInputRef = useRef<HTMLIonInputElement | null>(null);
 
@@ -94,6 +95,16 @@ const SignupForm: React.FC = () => {
     }
   };
 
+  const resendOtp = () => {
+    // Simulate OTP resend
+    if (resendOtpCount < 3) { // Limit resends to 3 times
+      setResendOtpCount(resendOtpCount + 1);
+      alert('OTP resent!');
+    } else {
+      alert('You have reached the maximum resend limit.');
+    }
+  };
+
   return (
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
@@ -156,18 +167,21 @@ const SignupForm: React.FC = () => {
 
               {/* Step 2: Enter OTP */}
               {formStep === 2 && (
-                <IonItem className="rounded-lg bg-gray-100 mb-4">
-                  <IonInput
-                    type="text"
-                    name="otp"
-                    placeholder="Enter OTP"
-                    value={formData.otp}
-                    onIonChange={handleChange}
-                    label="OTP"
-                    labelPlacement="floating"
-                    className="rounded-lg"
-                  />
-                </IonItem>
+                <>
+                  <IonItem className="rounded-lg bg-gray-100 mb-4">
+                    <IonInput
+                      type="text"
+                      name="otp"
+                      placeholder="Enter OTP"
+                      value={formData.otp}
+                      onIonChange={handleChange}
+                      label="OTP"
+                      labelPlacement="floating"
+                      className="rounded-lg"
+                    />
+                  </IonItem>
+
+                </>
               )}
 
               {/* Step 3: Set Password */}
@@ -238,6 +252,25 @@ const SignupForm: React.FC = () => {
                   </IonText>
                 </div>
               )}
+              {formStep === 2 && (
+                <>
+                  {/* Resend OTP Link */}
+                  <div className="text-center mt-4">
+                    <IonText color="medium">
+                      <p>
+                        Didn't receive OTP?{' '}
+                        <span
+                          className="text-blue-500 cursor-pointer"
+                          onClick={resendOtp}
+                        >
+                          Resend OTP
+                        </span>
+                      </p>
+                    </IonText>
+                  </div>
+                </>
+              )}
+
             </form>
           </div>
         </div>
