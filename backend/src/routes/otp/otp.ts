@@ -199,29 +199,28 @@ router.post("/phone", async (req, res) => {
         return res.status(400).send({ error: "Phone number is required" });
     }
     await insertOtpRequest({ phone }, otp, expiresAt);
-    // const headers = {
-    //     "authorization": process.env.SMS_AUTH_KEY?.toString(),
-    //     "Content-Type": "application/json"
-    // };
+    const headers = {
+        "authorization": process.env.SMS_AUTH_KEY?.toString(),
+        "Content-Type": "application/json"
+    };
 
-    // const body = {
-    //     "route": "otp",
-    //     "variables_values": otp,
-    //     "numbers": phone,
-    //     // "route": "q", // this is expensive method. Use "otp" for testing.
-    //     // "message": `BHISM: Your one time password is ${otp}. It will expire in 10 minutes. Please do not share this code with anyone.`,
-    //     // "flash": 0,
-    // };
+    const body = {
+        "route": "otp",
+        "variables_values": otp,
+        "numbers": phone,
+        // "route": "q", // this is expensive method. Use "otp" for testing.
+        // "message": `BHISM: Your one time password is ${otp}. It will expire in 10 minutes. Please do not share this code with anyone.`,
+        // "flash": 0,
+    };
 
-    // try {
-    //     const response = await axios.post("https://www.fast2sms.com/dev/bulkV2", body, { headers });
-    //     res.status(200).send("OTP sent successfully");
-    // } catch (error) {
-    //     console.error("Error sending OTP:", error);
-    //     res.status(500).send({ error: "Failed to send OTP" });
-    // }
+    try {
+        const response = await axios.post("https://www.fast2sms.com/dev/bulkV2", body, { headers });
+        res.status(200).send("OTP sent successfully");
+    } catch (error) {
+        console.error("Error sending OTP:", error);
+        res.status(500).send({ error: "Failed to send OTP" });
+    }
 
-    res.status(200).send("otp : " + otp);
     console.log("otp : " + otp);
 });
 
@@ -245,19 +244,27 @@ router.post("/verify/email", async (req, res) => {
 
 router.post("/verify/phone", async (req, res) => {
     const { phone, otp } = req.body;
-    const token = jwt.sign({ phone }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-    const otpRequest = await validateOtpRequest({ phone }, otp);
+    try {
+        const token = jwt.sign({ phone }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+        const otpRequest = await validateOtpRequest({ phone }, otp);
 
-    if (!otpRequest) {
-        return res.status(400).send({ error: "Invalid OTP" });
-    }
+        if (!otpRequest) {
+            return res.status(400).send({ error: "Invalid OTP" });
+        }
 
-    const verifiedOtpRequest = await verifyOtpRequest({ phone });
+        const verifiedOtpRequest = await verifyOtpRequest({ phone });
 
-    if (!verifiedOtpRequest) {
-        return res.status(500).send({ error: "Failed to verify OTP" });
-    } else {
-    res.status(200).send({ message: "OTP verified successfully", token });
+        if (!verifiedOtpRequest) {
+            return res.status(500).send({ error: "Failed to verify OTP" });
+        } else {
+            res.status(200).send({ message: "OTP verified successfully", token });
+        }
+    } catch (error) {
+        // Log the error or handle it as needed
+        console.error(error);
+        if (!res.headersSent) {
+            res.status(500).send({ error: "An error occurred" });
+        }
     }
 });
 

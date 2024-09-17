@@ -17,7 +17,8 @@ import { PinInput } from "react-input-pin-code";
 import { useMaskito } from "@maskito/react";
 import options from "./mask";
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
-
+import ChatbotComponent from "./chatbot";
+import loginbg from '../images/login.png'
 const LoginForm: React.FC = () => {
   const [segment, setSegment] = useState<"mobile" | "abha">("mobile");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const LoginForm: React.FC = () => {
   const handleInputChange = (value: string) => {
     const formatted = value;
     const clean = value.replace(/\s+/g, "").replace(/^\+91/, "");
-
+    console.log(clean);
     setPhoneMasked(formatted);
     setCleanNumber(clean);
   };
@@ -75,7 +76,7 @@ const LoginForm: React.FC = () => {
       const response = await fetch("http://localhost:3000/otp/phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phone || abhaId }),
+        body: JSON.stringify({ phone }),
       });
 
       if (response.ok) {
@@ -108,7 +109,7 @@ const LoginForm: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          identifier: currentIdentifier,
+          phone: currentIdentifier,
           password: currentPassword,
         }),
       });
@@ -163,8 +164,8 @@ const LoginForm: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
-        <div className="form-wrapper flex justify-center items-center h-full fixed inset-0">
-          <div className="w-[28rem] max-w-full shadow-lg p-6 bg-white rounded-lg">
+        <div className="form-wrapper flex justify-center items-center h-full fixed inset-0" style={{ backgroundImage: `url(${loginbg})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', position: 'fixed' }}>
+          <div className="w-11/12 max-w-lg shadow-lg p-6 bg-white rounded-lg">
             <h2 className="text-center text-2xl font-bold mb-4">Login</h2>
             <IonSegment
               value={segment}
@@ -172,10 +173,10 @@ const LoginForm: React.FC = () => {
               color="primary"
             >
               <IonSegmentButton value="mobile">
-                <IonLabel>Login via Mobile</IonLabel>
+                <IonLabel className="text-sm">Login via Mobile</IonLabel>
               </IonSegmentButton>
               <IonSegmentButton value="abha">
-                <IonLabel>Login by ABHA</IonLabel>
+                <IonLabel className="text-sm">Login by ABHA</IonLabel>
               </IonSegmentButton>
             </IonSegment>
 
@@ -313,6 +314,7 @@ const LoginForm: React.FC = () => {
             buttons={["OK"]}
           />
         )}
+        <ChatbotComponent />
       </IonContent>
     </IonPage>
   );

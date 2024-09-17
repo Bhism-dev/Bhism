@@ -8,7 +8,7 @@ export const createUserTable = async () => {
       first_name VARCHAR(100),
       last_name VARCHAR(100),
       phone VARCHAR(15),
-      email VARCHAR(100) UNIQUE,
+      email VARCHAR(100),
       password VARCHAR(100),
       abhaid VARCHAR(100),
       token TEXT,

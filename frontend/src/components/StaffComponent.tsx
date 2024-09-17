@@ -4,6 +4,7 @@ import {
 } from "@ionic/react";
 import { checkmark, close, heart, pulse, body, medical, man, woman, person, peopleCircleOutline } from "ionicons/icons";
 import "../theme/tailwind.css";
+import ChatbotComponent from "./chatbot";
 
 // TODO: Fix icons for all designations :)
 const getIconForDepartment = (department: string) => {
@@ -349,6 +350,7 @@ const StaffComponent: React.FC = () => {
             buttons={["OK"]}
           />
         )}
+        <ChatbotComponent />
       </IonContent>
     </IonPage>
   );

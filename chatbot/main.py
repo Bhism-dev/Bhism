@@ -4,6 +4,7 @@ import google.generativeai as genai
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,6 +15,15 @@ genai.configure(api_key=os.environ["API_KEY"])
 # Initialize FastAPI app
 app = FastAPI()
 
+# Add CORSMiddleware to the application
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=False,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 # Function to interact with the Gemini API
 def ask_gemini(prompt):
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -21,7 +31,9 @@ def ask_gemini(prompt):
     if response.parts:
         return response.text
     else:
-        return "19"
+        return "No response"
+
+# Function to handle the query
 
 # Function to handle the query
 def handle_query(query):
