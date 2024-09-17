@@ -1,0 +1,55 @@
+/* Custom Swiper Styles for Material Effect */
+.swiper-material-slide {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .swiper-material-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .swiper-material-content {
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+  
+  .demo-material-image {
+    width: 100%;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .demo-material-label {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Scale effect for active slides */
+  .swiper-slide-active .swiper-material-content {
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+  .swiper-slide-next .swiper-material-content,
+  .swiper-slide-prev .swiper-material-content {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  
+  /* Non-visible slides scale down */
+  .swiper-slide {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  

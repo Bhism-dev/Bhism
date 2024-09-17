@@ -51,6 +51,7 @@ import BloodBank from "./pages/BloodBank/BloodBank";
 import StaffAvailability from "./pages/StaffAvailability/StaffAvailability";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Vaccination from "./pages/Vaccination/Vaccination";
+import Landing from "./pages/Landing/landing";
 
 setupIonicReact();
 
@@ -61,8 +62,9 @@ const App: React.FC = () => {
         <IonRouterOutlet id="main">
           <Route exact path="/login" component={LoginForm} />
           <Route exact path="/signup" component={Signup} /> 
+          <Route exact path="/landing" component={Landing} />
           <Route path="/" exact={true}>
-            <Redirect to="/Login" />
+            <Redirect to="/landing" />
           </Route>
           <Route path="/bedavailability" component={BedAvailability} />
           <Route path="/labmanagement" component={LabManagement} />
