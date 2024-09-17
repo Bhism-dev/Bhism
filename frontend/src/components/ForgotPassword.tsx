@@ -8,7 +8,7 @@ import {
   IonText
 } from "@ionic/react";
 import '../theme/tailwind.css'; // Import the Tailwind CSS file
-
+import loginbg from '../images/login.png'
 const ForgotPasswordComponent: React.FC = () => {
   const [currentSegment, setCurrentSegment] = useState(1);
   const [formData, setFormData] = useState({
@@ -46,9 +46,8 @@ const ForgotPasswordComponent: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
-        <div className="form-wrapper flex justify-center items-center h-full fixed inset-0">
-          {/* Main form container */}
-          <div className="w-[28rem] max-w-full shadow-lg p-6 bg-white rounded-lg">
+      <div className="form-wrapper flex justify-center items-center h-full fixed inset-0" style={{ backgroundImage: `url(${loginbg})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', position: 'fixed' }}>
+      <div className="w-[28rem] w-11/12 max-w-lg shadow-lg p-6 bg-white rounded-lg">
             <h2 className="text-center text-2xl font-bold mb-4"> Forgot Password</h2>
 
             <form onSubmit={handleSubmit}>

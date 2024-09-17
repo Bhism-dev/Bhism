@@ -16,6 +16,7 @@ import {
 import { PinInput } from "react-input-pin-code";
 import { useMaskito } from "@maskito/react";
 import options from "./mask";
+import loginbg from '../images/login.png'
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
 
 const SignupForm: React.FC = () => {
@@ -142,8 +143,8 @@ const SignupForm: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding" fullscreen>
-        <div className="form-wrapper flex justify-center items-center h-full fixed inset-0">
-          <div className="w-[28rem] max-w-full shadow-lg p-6 bg-white rounded-lg">
+      <div className="form-wrapper flex justify-center items-center h-full fixed inset-0" style={{ backgroundImage: `url(${loginbg})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', position: 'fixed' }}>
+      <div className="w-[28rem] w-11/12 max-w-lg shadow-lg p-6 bg-white rounded-lg">
             <h2 className="text-center text-2xl font-bold mb-4">Sign Up</h2>
             <IonSegment
               value={segment}
