@@ -22,6 +22,7 @@ import {
   IonDatetime,
   IonList,
   IonDatetimeButton,
+  IonBackButton,
 } from '@ionic/react';
 import { heart, water, search, calendar, close, chevronDown } from 'ionicons/icons';
 import '../theme/tailwind.css'
@@ -39,8 +40,11 @@ const BloodBankPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle>Hospital Blood Bank</IonTitle>
+        <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Blood Bank</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="ion-padding">

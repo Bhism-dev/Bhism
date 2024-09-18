@@ -17,7 +17,10 @@ import {
   IonLabel,
   IonItem,
   IonList,
-  IonIcon
+  IonIcon,
+  IonPage,
+  IonButtons,
+  IonBackButton
 } from '@ionic/react';
 import { close, chevronDown, flaskOutline, bodyOutline, magnetOutline, scanOutline, pulseOutline, heartOutline } from 'ionicons/icons';
 import './LabManagement.css'
@@ -114,10 +117,13 @@ export default function LabManagementComponent() {
   };
 
   return (
-    <IonApp >
+    <IonPage >
       <IonHeader>
         <IonToolbar>
-          <IonTitle className="text-center font-bold text-white ">Hospital Lab Queue System</IonTitle>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Lab Management</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding bg-gray-50">
@@ -222,6 +228,6 @@ export default function LabManagementComponent() {
         </IonModal>
 
       </IonContent>
-    </IonApp>
+    </IonPage>
   );
 }

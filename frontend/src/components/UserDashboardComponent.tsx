@@ -18,6 +18,7 @@ import {
   IonModal,
   IonButtons,
   IonFabButton,
+  IonBackButton,
 } from '@ionic/react';
 import { calendarOutline, documentTextOutline, callOutline, medkitOutline, peopleOutline, nutritionOutline, closeCircleOutline, personCircleOutline } from 'ionicons/icons';
 import '../theme/tailwind.css'
@@ -55,8 +56,11 @@ export default function UserDashboardComponent() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className='bg-blue-900'>
-          <IonTitle style={{color:'white'}}>Hospital Dashboard</IonTitle>
+        <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Profile</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonPage } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import '../theme/tailwind.css';
 
 interface Vaccination {
@@ -59,6 +59,14 @@ const VaccinationComponent: React.FC = () => {
 
   return (
     <IonPage>
+            <IonHeader>
+        <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Vaccination</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="ion-padding">
         <div className="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-pink-600 text-center">

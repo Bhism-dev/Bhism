@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonButton, IonItem, IonLabel, IonList, IonGrid, IonRow, IonCol, IonText } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonButton, IonItem, IonLabel, IonList, IonGrid, IonRow, IonCol, IonText, IonButtons, IonBackButton } from '@ionic/react';
 import '../theme/tailwind.css';
 
 
@@ -29,7 +29,10 @@ const InventoryComponent: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle className="text-white">Pharmacy Inventory</IonTitle>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Inventory</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

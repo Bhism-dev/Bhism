@@ -119,7 +119,10 @@ const OPDBooking: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle className="text-center">OPD Booking</IonTitle>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle >OPD Booking</IonTitle>
         </IonToolbar>
       </IonHeader>
       

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar, IonCard, IonAlert, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonButton, IonButtons, IonIcon, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol, IonModal, IonSkeletonText, 
+  IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar, IonCard, IonAlert, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonButton, IonButtons, IonIcon, IonSelect, IonSelectOption, IonGrid, IonRow, IonCol, IonModal, IonSkeletonText,
+  IonBackButton, 
 } from "@ionic/react";
 import { checkmark, close, heart, pulse, body, medical, man, woman, person, peopleCircleOutline } from "ionicons/icons";
 import "../theme/tailwind.css";
@@ -150,10 +151,11 @@ const StaffComponent: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle className="text-white text-center font-bold">
-            Hospital Staff Availability
-          </IonTitle>
+        <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Staff Availability</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-gray-100" id="main-content">

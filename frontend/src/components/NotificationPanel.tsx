@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonLabel, IonBadge, IonIcon, IonAvatar, IonList, IonItemSliding, IonItemOptions, IonItemOption, IonChip, IonButton
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonLabel, IonBadge, IonIcon, IonAvatar, IonList, IonItemSliding, IonItemOptions, IonItemOption, IonChip, IonButton, IonButtons, IonBackButton
 } from '@ionic/react';
 import { notificationsOutline, alertCircleOutline, calendarOutline, informationCircleOutline, personOutline, medkitOutline,person
 } from 'ionicons/icons';
@@ -120,25 +120,14 @@ const UserNotificationCenter: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle className="text-lg font-semibold">Notification Center</IonTitle>
-          
+        <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/landing"></IonBackButton>
+        </IonButtons>
+          <IonTitle>Notification</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="ion-padding">
-        <IonCard className="mb-4">
-          <IonCardHeader>
-            {/* <IonAvatar className="w-20 h-20 mx-auto mb-2">
-              <img src="/placeholder.svg?height=80&width=80" alt="User" className="rounded-full" />
-            </IonAvatar> */}
-            <IonIcon
-                    icon={person} // User icon
-                    className="w-20 h-20 mx-auto mb-2"
-                  />
-            <IonCardTitle className="text-center text-xl font-bold">Welcome, John Doe</IonCardTitle>
-            <IonCardSubtitle className="text-center text-sm">Your Personal Notification Center</IonCardSubtitle>
-          </IonCardHeader>
-        </IonCard>
 
         <IonCard className="mb-4">
           <IonCardHeader>

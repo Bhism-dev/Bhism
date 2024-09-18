@@ -60,7 +60,7 @@ const ChatbotComponent: React.FC = () => {
 
     return (
         <>
-            <IonFab vertical="bottom" horizontal="end">
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
             {!isOpen && (
                 <IonFabButton onClick={() => setIsOpen(true)}>
                   <IonIcon icon={chatbubbleEllipses} />
@@ -107,7 +107,7 @@ const ChatbotComponent: React.FC = () => {
                       >
                         {message.role === "bot" && (
                           <IonAvatar slot="start">
-                            <img alt="Sahaayak chatbot logo" src="../../public/assets/cblogo.png" />
+                            <img alt="Sahaayak chatbot logo" src="/assets/cblogo.png" />
                           </IonAvatar>
                         )}
                         <IonLabel className="ion-text-wrap">
@@ -133,7 +133,7 @@ const ChatbotComponent: React.FC = () => {
                         </IonLabel>
                         {message.role === "user" && (
                           <IonAvatar slot="end">
-                            <img alt="Silhouette of a person's head" src="../../public/assets/person.png" />
+                            <img alt="Silhouette of a person's head" src="/assets/person.png" />
                           </IonAvatar>
                         )}
                       </IonItem>

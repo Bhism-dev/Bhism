@@ -41,12 +41,10 @@ import "./theme/variables.css";
 import LoginForm from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import BedAvailability from './pages/BedAvailability/BedAvailability.js';
-import LabManagementComponent from "./components/LabManagementComponent";
 import UserDashboard from "./pages/UserDashboard/UserDashboard";
 import InventoryManagement from './pages/InventoryManagement/InventoryManagement';
 import AdminInventoryManagement from "./pages/InventoryManagement/AdminInventoryManagement";
 import AdminBedAvailability from "./pages/BedAvailability/AdminBedAvailability";
-import LabManagement from "./pages/LabManagement/LabManagement";
 import BloodBank from "./pages/BloodBank/BloodBank";
 import StaffAvailability from "./pages/StaffAvailability/StaffAvailability";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -56,6 +54,7 @@ import NotificationPage from "./pages/Notifications/NotificationPage";
 import AdminStaffAvailability from "./pages/StaffAvailability/AdminStaffAvailability";
 import OPDBooking from "./pages/OPDBooking/OPDBooking";
 import ChatbotComponent from "./components/chatbot";
+import LabManagement from "./pages/LabManagement/LabManagement";
 
 setupIonicReact();
 
