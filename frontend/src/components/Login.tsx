@@ -17,8 +17,9 @@ import { PinInput } from "react-input-pin-code";
 import { useMaskito } from "@maskito/react";
 import options from "./mask";
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
-import ChatbotComponent from "./chatbot";
 import loginbg from '../images/login.png'
+import { useHistory } from "react-router-dom";
+
 const LoginForm: React.FC = () => {
   const [segment, setSegment] = useState<"mobile" | "abha">("mobile");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -30,6 +31,8 @@ const LoginForm: React.FC = () => {
   const [abhaId, setAbhaId] = useState(""); // State for ABHA ID
   const [submit, setSubmit] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  const History = useHistory();
 
   const handleInputChange = (value: string) => {
     const formatted = value;
@@ -116,8 +119,8 @@ const LoginForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
+        History.push("/landing");
         localStorage.setItem("token", data.token);
-        setAlertMessage("Login successful");
       } else {
         if (data.message === "Invalid credentials") {
           setAlertMessage("Invalid credentials");
@@ -150,7 +153,7 @@ const LoginForm: React.FC = () => {
 
       if (data.message === "OTP verified successfully") {
         localStorage.setItem("token", data.token);
-        setAlertMessage("OTP verification successful");
+        History.push("/landing");
       } else {
         setAlertMessage("Invalid OTP. Please try again.");
       }
@@ -314,7 +317,6 @@ const LoginForm: React.FC = () => {
             buttons={["OK"]}
           />
         )}
-        <ChatbotComponent />
       </IonContent>
     </IonPage>
   );

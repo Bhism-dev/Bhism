@@ -67,7 +67,7 @@ const App: React.FC = () => {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/landing" component={Landing} />
           <Route path="/" exact={true}>
-            <Redirect to="/landing" />
+            <Redirect to="/login" />
           </Route>
           <Route path="/bedavailability" component={BedAvailability} />
           <Route path="/labmanagement" component={LabManagement} />

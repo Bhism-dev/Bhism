@@ -18,6 +18,7 @@ import { PinInput } from "react-input-pin-code";
 import { useMaskito } from "@maskito/react";
 import options from "./mask";
 import loginbg from "../images/login.png";
+import { useHistory } from "react-router-dom";
 import "../theme/tailwind.css"; // Import the Tailwind CSS file
 
 const SignupForm: React.FC = () => {
@@ -37,6 +38,8 @@ const SignupForm: React.FC = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
+
+  const History = useHistory();
 
   const handleInputChange = (value: string) => {
     const formatted = value;
@@ -138,7 +141,7 @@ const SignupForm: React.FC = () => {
       });
 
       if (response.ok) {
-        setAlertMessage("Signup successful");
+        History.push("/landing");
       } else {
         setAlertMessage("Signup failed. Please try again.");
       }
