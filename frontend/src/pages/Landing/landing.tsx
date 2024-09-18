@@ -174,7 +174,7 @@ const UserDashboard: React.FC = () => {
             ))}
           </Swiper>
 
-          <h2 className="ion-padding-top">Our Services</h2>
+          <h2 className="ion-padding-top ">Our Services</h2>
           <IonGrid>
             <IonRow>
               {services.map((service) => (

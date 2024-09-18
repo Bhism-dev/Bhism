@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  IonApp, 
+  IonApp,
+  IonImg, 
   IonContent, 
   IonHeader, 
   IonTitle, 
@@ -127,6 +128,13 @@ export default function LabManagementComponent() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding bg-gray-50">
+      <div className="flex justify-center">
+          <IonImg 
+            src="/assets/labs.svg" 
+            className="w-full sm:w-1/3 md:w-1/2 lg:w-1/3"
+            alt="Responsive"
+          />
+        </div>
         <IonGrid>
           <IonRow>
             {labs.map((lab) => (
