@@ -28,7 +28,7 @@ const ChatbotComponent: React.FC = () => {
         setLoading(true);
     
         try {
-          const response = await fetch("https://bhismchatbot.hsdev.workers.dev/process-query", {
+          const response = await fetch("https://bhismchatbot.hsdev.workers.dev/process-query/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
