@@ -169,7 +169,7 @@ const ChatbotComponent: React.FC = () => {
                         <div ref={bottomRef} /> {/* Dummy div to scroll into view */}
                     </IonContent>
 
-                    <IonFooter>
+                    <IonFooter className="pl-5">
                     <IonToolbar>
                       <IonInput
                         className="ion-padding"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonPage, IonHeader, IonContent, IonToolbar, IonTitle, IonButton, IonInput, IonSelect, IonSelectOption, IonDatetime, IonAlert, IonGrid, IonCol, IonRow, IonButtons, IonBackButton } from '@ionic/react';
+import {IonImg, IonPage, IonHeader, IonContent, IonToolbar, IonTitle, IonButton, IonInput, IonSelect, IonSelectOption, IonDatetime, IonAlert, IonGrid, IonCol, IonRow, IonButtons, IonBackButton } from '@ionic/react';
 import 'tailwindcss/tailwind.css';
 import jsPDF from 'jspdf';
 
@@ -137,6 +137,13 @@ const OPDBooking: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
+      <div className="flex justify-center">
+          <IonImg 
+            src="/assets/opd.svg" 
+            className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3"
+            alt="OPD"
+          />
+        </div>
         {!showForm ? (
           <IonGrid>
             <IonRow>

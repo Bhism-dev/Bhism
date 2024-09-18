@@ -6,7 +6,7 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
-import Menu from "./components/Menu";
+
 import Page from "./pages/Page";
 
 /* Core CSS required for Ionic components to work properly */
@@ -56,6 +56,8 @@ import OPDBooking from "./pages/OPDBooking/OPDBooking";
 import ChatbotComponent from "./components/chatbot";
 import LabManagement from "./pages/LabManagement/LabManagement";
 
+import Dashboard from "./components/Admin/AdminDashboard";
+import OPDDashboard from "./components/Admin/AdminData";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -78,11 +80,12 @@ const App: React.FC = () => {
           <Route path="/bloodbank" component={BloodBank} />
           <Route path="/staff" component={StaffAvailability} />
           <Route path="/forgotpassword" component={ForgotPassword} />
-          <Route path="/menu" component={Menu} />
           <Route path="/vaccination" component={Vaccination} />
           <Route path="/notifications" component={NotificationPage} />
           <Route path="/admin/staff" component={AdminStaffAvailability} />
           <Route path="/book-opd" component={OPDBooking} />
+          <Route path="/admindash" component={Dashboard} />
+          <Route path="/admindash/data" component={OPDDashboard} />
           <Route path="/chatbot" component={ChatbotComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
