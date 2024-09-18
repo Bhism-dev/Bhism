@@ -17,7 +17,7 @@ const ChatbotComponent: React.FC = () => {
     const [loading, setLoading] = useState(false);
 
     const messagesEndRef = useRef<HTMLIonContentElement>(null);
-    const bottomRef = useRef<HTMLDivElement>(null); // New ref for the dummy div
+    const bottomRef = useRef<HTMLDivElement>(null);
 
     const handleSend = async () => {
         if (input.trim() === "") return;
