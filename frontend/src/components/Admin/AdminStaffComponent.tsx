@@ -196,13 +196,11 @@ const AdminStaffComponent: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader className="bg-white">
         <IonToolbar color="primary">
           <IonTitle className="text-white">Admin - Manage Staff</IonTitle>
         </IonToolbar>
-      </IonHeader>
-      <IonContent className="p-4">
-      <IonRow className="mb-4">
+        <IonRow className="mb-4 ">
       <IonCol size="12" sizeMd="6" className='m-0 p-0 px-1'>
         <IonButton expand="block" onClick={() => setIsAddModalOpen(true)}>
           <IonIcon icon={add} slot="start" />
@@ -221,32 +219,34 @@ const AdminStaffComponent: React.FC = () => {
         </IonButton>
         </IonCol>
         </IonRow>
-
         {showDeleteCheckboxes && (
-          <IonButton expand="block" color="danger" onClick={handleDeleteSelected} className="mt-2">
+          <IonButton expand="full" color="danger" onClick={handleDeleteSelected} className="mt-2">
             <IonIcon icon={trash} slot="start" />
             Delete Selected Staff
           </IonButton>
         )}
 
+      </IonHeader>
+      <IonContent className="p-4">
+      
         {loading ? (
           <p>Loading...</p>
         ) : (
           doctors.map((doctor) => (
             <IonCard key={doctor.id} className="mb-4">
   <IonCardHeader>
-    <IonCardTitle>{doctor.name}</IonCardTitle>
-  </IonCardHeader>
-  <IonCardContent>
-    {showDeleteCheckboxes && (
+  {showDeleteCheckboxes && (
       <IonItem>
         <IonCheckbox
           checked={selectedDoctors.has(doctor.id)}
           onIonChange={(e) => handleSelectDoctor(doctor.id, e.detail.checked)}
         />
-        <IonLabel>{doctor.name}</IonLabel>
       </IonItem>
     )}
+    <IonCardTitle>{doctor.name}</IonCardTitle>
+  </IonCardHeader>
+  <IonCardContent>
+   
     <p>Designation: {doctor.designation}</p>
     <p>Hospital: {doctor.facility_posted}</p>
 
@@ -266,8 +266,6 @@ const AdminStaffComponent: React.FC = () => {
     </div>
   </IonCardContent>
 </IonCard>
-
-
           ))
         )}
 
@@ -414,7 +412,7 @@ const AdminStaffComponent: React.FC = () => {
         
                   return (
                     <IonItem key={key}>
-                      <IonLabel>{key.charAt(0).toUpperCase() + key.slice(1)}</IonLabel>
+                      <IonLabel>{key.charAt(0).toUpperCase() + key.slice(1) + ': '}</IonLabel>
                       <IonInput
                         value={value}
                         onIonChange={(e) =>
