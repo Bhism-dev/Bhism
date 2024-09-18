@@ -86,7 +86,7 @@ const SignupForm: React.FC = () => {
 
   const handleSendOtp = async (phone: string) => {
     try {
-      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/otp/phone", {
+      const response = await fetch("https://bhismbackend.hsdev.workers.dev/otp/phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: phone }),
@@ -109,7 +109,7 @@ const SignupForm: React.FC = () => {
 
   const handleOtpSubmit = async () => {
     try {
-      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/otp/verify/phone", {
+      const response = await fetch("https://bhismbackend.hsdev.workers.dev/otp/verify/phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -134,7 +134,7 @@ const SignupForm: React.FC = () => {
   const handleSignup = async () => {
     try {
       console.log("body: ", { phone, password: confirmPassword, firstName: firstname, lastName: lastname, email, abhaid: abhaId });
-      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/auth/signup", {
+      const response = await fetch("https://bhismbackend.hsdev.workers.dev/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, password: confirmPassword, firstName: firstname, lastName: lastname, email, abhaid: abhaId }),
