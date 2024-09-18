@@ -15,6 +15,7 @@ const ChatbotComponent: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isFirstTime, setIsFirstTime] = useState(true);
 
     const messagesEndRef = useRef<HTMLIonContentElement>(null);
     const bottomRef = useRef<HTMLDivElement>(null);
@@ -58,11 +59,25 @@ const ChatbotComponent: React.FC = () => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
+    const handleOpenChat = () => {
+      setIsOpen(true);
+  
+      if (isFirstTime) {
+        // Display welcome message the first time chatbot is opened
+        const welcomeMessage = {
+          role: "bot",
+          content: "Hello, welcome to Sahaayak! How can I assist you today?",
+        };
+        setMessages([welcomeMessage]);
+        setIsFirstTime(false); // Ensure welcome message is shown only once
+      }
+    };
+
     return (
         <>
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
             {!isOpen && (
-                <IonFabButton onClick={() => setIsOpen(true)}>
+                <IonFabButton onClick={() => handleOpenChat()}>
                   <IonIcon icon={chatbubbleEllipses} />
                 </IonFabButton>
               )}
