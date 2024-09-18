@@ -77,26 +77,36 @@ const OPDBooking: React.FC = () => {
   };
 
   // View appointment slip in browser and offer download option
-  const viewAppointmentSlip = (appointment: any) => {
+  const viewAppointmentSlip = async (appointment: any) => {
     const doc = new jsPDF();
     doc.setProperties({
-        title: 'OPD Receipt',
+      title: 'OPD Receipt',
     });
 
-    doc.text('Appointment Slip', 20, 20);
-    doc.text(`Date: ${appointment.date}`, 20, 30);
-    doc.text(`Time: ${appointment.time}`, 20, 40);
-    doc.text(`Patient Name: ${appointment.name}`, 20, 50);
-    doc.text(`Problem: ${appointment.problem}`, 20, 60);
-    doc.text(`Doctor: ${appointment.doctor}`, 20, 70);
-    doc.text(`Medication: ${appointment.medication}`, 20, 80);
-    const pdfUrl = doc.output('bloburl'); // Generate PDF as a URL to view in browser
-    window.open(pdfUrl, '_blank');
+    const img = new Image();
+    img.src = './assets/BHISM.png';
+    var pageWidth = doc.internal.pageSize.width ||  doc.internal.pageSize.getWidth();
+    const centerX = (pageWidth - 30) / 2;
+
+    img.onload = () => {
+      // Add image to PDF
+      doc.addImage(img, 'PNG', centerX, 10, 30, 10); // Position the image (x, y, width, height)
+      doc.text('Appointment Slip', 20, 35); 
+      doc.text(`Date: ${appointment.date}`, 20, 50); 
+      doc.text(`Time: ${appointment.time}`, 20, 60);
+      doc.text(`Patient Name: ${appointment.name}`, 20, 70);
+      doc.text(`Problem: ${appointment.problem}`, 20, 80);
+      doc.text(`Doctor: ${appointment.doctor}`, 20, 90);
+      doc.text(`Medication: ${appointment.medication}`, 20, 100);
+  
+      const pdfUrl = doc.output('bloburl');
+      window.open(pdfUrl, '_blank');
+    };
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     // Validate form data
     if (!hospital || !department || !selectedDate) {
       setAlertMessage('Please fill in all fields.');
@@ -118,14 +128,14 @@ const OPDBooking: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-      <IonToolbar>
-        <IonButtons slot="start">
-          <IonBackButton defaultHref="/landing"></IonBackButton>
-        </IonButtons>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/landing"></IonBackButton>
+          </IonButtons>
           <IonTitle >OPD Booking</IonTitle>
         </IonToolbar>
       </IonHeader>
-      
+
       <IonContent className="ion-padding">
         {!showForm ? (
           <IonGrid>
