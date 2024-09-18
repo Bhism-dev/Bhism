@@ -81,12 +81,18 @@ const carouselItems = [
   {
     title: "Welcome to City Hospital",
     description: "Your health is our priority",
+    imageUrl: "/assets/slider1.png", // Add your custom image URL here
   },
   {
     title: "COVID-19 Updates",
     description: "Stay informed about our latest protocols",
+    imageUrl: "/assets/slider2.avif", // Add your custom image URL here
   },
-  { title: "New Pediatric Wing", description: "Now open for appointments" },
+  {
+    title: "New Pediatric Wing",
+    description: "Now open for appointments",
+    imageUrl: "/assets/slider3.jpg", // Add your custom image URL here
+  },
 ];
 
 const UserDashboard: React.FC = () => {
@@ -121,7 +127,7 @@ const UserDashboard: React.FC = () => {
       </IonMenu>
 
       <IonPage id="main-content">
-        <IonHeader className="">
+        <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
               <IonMenuButton />
@@ -155,15 +161,14 @@ const UserDashboard: React.FC = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     textAlign: "center",
-                    backgroundImage:
-                      "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWozwn5Dq743P3a90wnbTRhAcjT7_5XVr0fQ&s)",
+                    backgroundImage: `url(${item.imageUrl})`, // Use dynamic image URL here
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     borderRadius: "8px",
                   }}
                 >
-                  <h2>{item.title}</h2>
-                  <p>{item.description}</p>
+                  <h2 style={{color:"white"}}>{item.title}</h2>
+                  <p style={{color:"white"}}>{item.description}</p>
                 </div>
               </SwiperSlide>
             ))}
