@@ -41,7 +41,7 @@ const AdminStaffComponent: React.FC = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await fetch("http://localhost:3000/doctors/doctors", {
+        const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/doctors/doctors", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -63,7 +63,7 @@ const AdminStaffComponent: React.FC = () => {
 
   const handleDeleteDoctor = async (doctorId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/doctors/${doctorId}`, {
+      const response = await fetch(`http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/doctors/${doctorId}`, {
         method: "DELETE",
       });
 
@@ -80,7 +80,7 @@ const AdminStaffComponent: React.FC = () => {
 
   const handleToggleAvailability = async (doctorId: string, availability: boolean) => {
     try {
-      const response = await fetch(`http://localhost:3000/doctors/${doctorId}/availability`, {
+      const response = await fetch(`http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/doctors/${doctorId}/availability`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ availability }),
@@ -103,7 +103,7 @@ const AdminStaffComponent: React.FC = () => {
   const handleEditDoctor = async () => {
     if (selectedDoctor) {
       try {
-        const response = await fetch(`http://localhost:3000/doctors/${selectedDoctor.id}`, {
+        const response = await fetch(`http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/doctors/${selectedDoctor.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(selectedDoctor),
@@ -163,7 +163,7 @@ const AdminStaffComponent: React.FC = () => {
 
   const handleAddDoctor = async () => {
     try {
-      const response = await fetch("http://localhost:3000/doctors/doctors", {
+      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/doctors/doctors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newDoctor),

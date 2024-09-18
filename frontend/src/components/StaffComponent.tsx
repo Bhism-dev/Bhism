@@ -54,7 +54,7 @@ const StaffComponent: React.FC = () => {
   useEffect(() => {
     const fetchDoctors = async() => {
       try{
-        const response = await fetch("http://localhost:3000/doctors/doctors", {
+        const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/doctors/doctors", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });

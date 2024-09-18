@@ -76,7 +76,7 @@ const LoginForm: React.FC = () => {
       setAbhaId(abhaId);
     }
     try {
-      const response = await fetch("http://localhost:3000/otp/phone", {
+      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/otp/phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone }),
@@ -106,7 +106,7 @@ const LoginForm: React.FC = () => {
   ) => {
 
     try {
-      const response = await fetch("http://localhost:3000/auth/signin", {
+      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,7 +138,7 @@ const LoginForm: React.FC = () => {
   const handleOtpSubmit = async () => {
 
     try {
-      const response = await fetch("http://localhost:3000/otp/verify/phone", {
+      const response = await fetch("http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000/otp/verify/phone", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

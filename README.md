@@ -39,3 +39,13 @@ To work with the backend, follow these commands:
 2. ```bash
    npm start
    ```
+
+
+## temp
+```
+http://bhismbackend.hbg7dydbfegpgecc.centralindia.azurecontainer.io:3000
+```
+
+```
+http://bhismchatbot.asdqe0avg6bbd3gx.centralindia.azurecontainer.io:5000
+```
