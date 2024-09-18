@@ -56,6 +56,8 @@ import OPDBooking from "./pages/OPDBooking/OPDBooking";
 import ChatbotComponent from "./components/chatbot";
 import LabManagement from "./pages/LabManagement/LabManagement";
 
+import Dashboard from "./components/Admin/AdminDashboard";
+import OPDDashboard from "./components/Admin/AdminData";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -83,6 +85,8 @@ const App: React.FC = () => {
           <Route path="/notifications" component={NotificationPage} />
           <Route path="/admin/staff" component={AdminStaffAvailability} />
           <Route path="/book-opd" component={OPDBooking} />
+          <Route path="/admindash" component={Dashboard} />
+          <Route path="/admindash/data" component={OPDDashboard} />
           <Route path="/chatbot" component={ChatbotComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
