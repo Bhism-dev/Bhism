@@ -1,3 +1,6 @@
 .idx
 .wwebjs_cache
 frontend/src/app.bac.tsx
+frontend/capacitor.config.ts
+frontend/ionic.config.json
+frontend/ionic.config.json
