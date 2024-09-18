@@ -38,6 +38,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import AuthGuard from "./components/AuthGuard";
 import LoginForm from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import BedAvailability from './pages/BedAvailability/BedAvailability.js';
@@ -65,25 +66,27 @@ const App: React.FC = () => {
         <IonRouterOutlet id="main">
           <Route exact path="/login" component={LoginForm} />
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/landing" component={Landing} />
+          <Route path="/forgotpassword" component={ForgotPassword} />
+
           <Route path="/" exact={true}>
             <Redirect to="/login" />
           </Route>
-          <Route path="/bedavailability" component={BedAvailability} />
-          <Route path="/labmanagement" component={LabManagement} />
-          <Route path="/inventory" component={InventoryManagement} />
-          <Route path="/dashboard" component={UserDashboard} />
-          <Route path="/admin/inventory" component={AdminInventoryManagement} />
-          <Route path="/admin/bedavailability" component={AdminBedAvailability} />
-          <Route path="/bloodbank" component={BloodBank} />
-          <Route path="/staff" component={StaffAvailability} />
-          <Route path="/forgotpassword" component={ForgotPassword} />
-          <Route path="/menu" component={Menu} />
-          <Route path="/vaccination" component={Vaccination} />
-          <Route path="/notifications" component={NotificationPage} />
-          <Route path="/admin/staff" component={AdminStaffAvailability} />
-          <Route path="/book-opd" component={OPDBooking} />
-          <Route path="/chatbot" component={ChatbotComponent} />
+
+          <AuthGuard exact path="/landing" component={Landing} />
+          <AuthGuard path="/bedavailability" component={BedAvailability} />
+          <AuthGuard path="/labmanagement" component={LabManagement} />
+          <AuthGuard path="/inventory" component={InventoryManagement} />
+          <AuthGuard path="/dashboard" component={UserDashboard} />
+          <AuthGuard path="/admin/inventory" component={AdminInventoryManagement} />
+          <AuthGuard path="/admin/bedavailability" component={AdminBedAvailability} />
+          <AuthGuard path="/bloodbank" component={BloodBank} />
+          <AuthGuard path="/staff" component={StaffAvailability} />
+          <AuthGuard path="/menu" component={Menu} />
+          <AuthGuard path="/vaccination" component={Vaccination} />
+          <AuthGuard path="/notifications" component={NotificationPage} />
+          <AuthGuard path="/admin/staff" component={AdminStaffAvailability} />
+          <AuthGuard path="/book-opd" component={OPDBooking} />
+          <AuthGuard path="/chatbot" component={ChatbotComponent} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
