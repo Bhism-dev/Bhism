@@ -167,14 +167,16 @@ const UserDashboard: React.FC = () => {
                     borderRadius: "8px",
                   }}
                 >
-                  <h2 style={{color:"white"}}>{item.title}</h2>
-                  <p style={{color:"white"}}>{item.description}</p>
+                  <h2 className="text-lg md:text-2xl lg:text-3xl text-white">{item.title}</h2>
+                  <p className="text-sm md:text-base lg:text-lg text-white">
+                    {item.description}
+                  </p>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
 
-          <h2 className="ion-padding-top ">Our Services</h2>
+          <h2 className="ion-padding-top text-base md:text-xl lg:text-2xl">Our Services</h2>
           <IonGrid>
             <IonRow>
               {services.map((service) => (
@@ -192,7 +194,9 @@ const UserDashboard: React.FC = () => {
                       />
                     </IonCardHeader>
                     <IonCardContent>
-                      <IonCardTitle>{service.name}</IonCardTitle>
+                      <IonCardTitle className="text-sm md:text-base lg:text-lg">
+                        {service.name}
+                      </IonCardTitle>
                     </IonCardContent>
                   </IonCard>
                 </IonCol>
