@@ -26,6 +26,9 @@ import {
   bed,
   water,
   fitness,
+  flask,
+  cube,
+  people,
   person,
   notifications,
   logOut,
@@ -53,26 +56,26 @@ const services = [
   { name: "Blood Bank", icon: water, color: "danger", route: "/bloodbank" },
   {
     name: "Vaccination Tracking",
-    icon: fitness,
-    color: "warning",
+    icon: fitness, // Same fitness icon
+    color: "warning", // Yellow (warning)
     route: "/vaccination",
   },
   {
     name: "Lab Management",
-    icon: fitness,
-    color: "warning",
+    icon: flask, // Lab Management icon
+    color: "purple", // Changed to purple
     route: "/labmanagement",
   },
   {
     name: "Inventory Management",
-    icon: fitness,
-    color: "warning",
+    icon: cube, // New icon for Inventory Management
+    color: "tertiary", // Changed to tertiary (blue/teal)
     route: "/inventory",
   },
   {
     name: "Staff Availability",
-    icon: fitness,
-    color: "warning",
+    icon: people, // Staff Availability icon
+    color: "secondary", // Changed to secondary (blue)
     route: "/staff",
   },
 ];
