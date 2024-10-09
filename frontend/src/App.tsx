@@ -59,6 +59,7 @@ import LabManagement from "./pages/LabManagement/LabManagement";
 import Dashboard from "./components/Admin/AdminDashboard";
 import OPDDashboard from "./components/Admin/AdminData";
 import Disclaimer from "./components/Disclaimer";
+import Home from "./pages/Home/Home";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -67,11 +68,12 @@ const App: React.FC = () => {
       <Disclaimer />
       <IonReactRouter>
         <IonRouterOutlet id="main">
+        <Route exact path="/home" component={Home} />
           <Route exact path="/login" component={LoginForm} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/landing" component={Landing} />
           <Route path="/" exact={true}>
-            <Redirect to="/login" />
+            <Redirect to="/home" />
           </Route>
           <Route path="/bedavailability" component={BedAvailability} />
           <Route path="/labmanagement" component={LabManagement} />
