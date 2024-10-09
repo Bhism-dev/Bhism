@@ -58,11 +58,13 @@ import LabManagement from "./pages/LabManagement/LabManagement";
 
 import Dashboard from "./components/Admin/AdminDashboard";
 import OPDDashboard from "./components/Admin/AdminData";
+import Disclaimer from "./components/Disclaimer";
 setupIonicReact();
 
 const App: React.FC = () => {
   return (
     <IonApp>
+      <Disclaimer />
       <IonReactRouter>
         <IonRouterOutlet id="main">
           <Route exact path="/login" component={LoginForm} />
