@@ -60,6 +60,7 @@ import Dashboard from "./components/Admin/AdminDashboard";
 import OPDDashboard from "./components/Admin/AdminData";
 import Disclaimer from "./components/Disclaimer";
 import Home from "./pages/Home/Home";
+import UserChoice from "./pages/UserChoice/UserChoice";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -68,10 +69,11 @@ const App: React.FC = () => {
       <Disclaimer />
       <IonReactRouter>
         <IonRouterOutlet id="main">
-        <Route exact path="/home" component={Home} />
+          <Route exact path="/home" component={Home} />
           <Route exact path="/login" component={LoginForm} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/landing" component={Landing} />
+          <Route exact path="/userchoice" component={UserChoice} />
           <Route path="/" exact={true}>
             <Redirect to="/home" />
           </Route>
