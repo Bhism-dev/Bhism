@@ -37,7 +37,7 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "recharts": "^2.12.7",
-    "swiper": "^11.1.14"
+    "swiper": "^12.1.2"
   },
   "devDependencies": {
     "@capacitor/cli": "6.1.2",
